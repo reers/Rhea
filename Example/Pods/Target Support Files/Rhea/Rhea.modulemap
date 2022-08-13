@@ -1,0 +1,6 @@
+framework module Rhea {
+  umbrella header "Rhea-umbrella.h"
+
+  export *
+  module * { export * }
+}

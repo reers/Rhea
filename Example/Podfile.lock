@@ -1,0 +1,16 @@
+PODS:
+  - Rhea (0.1.0)
+
+DEPENDENCIES:
+  - Rhea (from `../`)
+
+EXTERNAL SOURCES:
+  Rhea:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Rhea: 50e7c584f0542cd3e983fbf898ad79b72c8f1774
+
+PODFILE CHECKSUM: 8ee99c744df8932ed8d67e9a151ed7c7218e07aa
+
+COCOAPODS: 1.11.3
