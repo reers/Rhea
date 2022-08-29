@@ -3,7 +3,7 @@
 //  Rhea_Example
 //
 //  Created by phoenix on 2022/8/13.
-//  Copyright © 2022 CocoaPods. All rights reserved.
+//  Copyright © 2022 phoenix. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -3,22 +3,12 @@
 //  Rhea_Example
 //
 //  Created by phoenix on 2022/8/13.
-//  Copyright © 2022 CocoaPods. All rights reserved.
+//  Copyright © 2022 phoenix. All rights reserved.
 //
 
 #import "HomePageViewController.h"
+
 @import Rhea;
-
-@interface Rhea (HomePageViewController)
-
-@end
-
-@implementation Rhea (HomePageViewController)
-
-- (void)rhea_homePageViewController {
-    
-}
-@end
 
 @interface HomePageViewController ()
 
@@ -31,14 +21,27 @@
     // Do any additional setup after loading the view.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
++ (void)doSomethingWhenLoad {
+    NSLog(@"HomePageViewController doSomethingWhenLoad");
 }
-*/
+
++ (void)doSomethingWhenAppDidFinishLaunching {
+    NSLog(@"HomePageViewController doSomethingWhenAppDidFinishLaunching");
+}
 
 @end
+
+
+RheaTimeBegin(HomePageViewController)
+- (void)load_homePageViewController {
+    [HomePageViewController doSomethingWhenLoad];
+}
+
+- (void)appDidFinishLaunching_homePageViewController {
+    [HomePageViewController doSomethingWhenAppDidFinishLaunching];
+}
+
+- (void)mainViewControllerDidAppear_homePageViewController {
+    NSLog(@"HomePageViewController doSomethingWhenMainViewControllerDidAppear");
+}
+RheaTimeEnd
