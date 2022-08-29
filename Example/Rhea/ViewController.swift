@@ -8,12 +8,22 @@
 
 import UIKit
 import Rhea
+import OSLog
+
+extension RheaTimeName {
+    static let mainViewControllerDidAppear = RheaTimeName(rawValue: "mainViewControllerDidAppear")
+}
 
 extension Rhea {
     
     @objc
-    func rhea_viewController() {
-        
+    func load_viewController() {
+        ViewController.doSomethingWhenload()
+    }
+    
+    @objc
+    func appDidFinishLaunching_viewController() {
+        ViewController.doSomethingWhenAppDidFinishLaunching()
     }
 }
 
@@ -23,11 +33,23 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Rhea.shared().trigger(withTime: .mainViewControllerDidAppear)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    class func doSomethingWhenload() {
+        os_log("ViewController doSomethingWhenload")
+    }
+    
+    class func doSomethingWhenAppDidFinishLaunching() {
+        os_log("ViewController doSomethingWhenAppDidFinishLaunching")
+    }
 }
 
