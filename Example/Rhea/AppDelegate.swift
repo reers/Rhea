@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Rhea
+import RheaTime
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

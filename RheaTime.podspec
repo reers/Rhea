@@ -7,12 +7,12 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'Rhea'
+  s.name             = 'RheaTime'
   s.version          = '0.1.0'
   s.summary          = 'iOS App Time Dispatcher.'
 
   s.description      = <<-DESC
-iOS App Time Dispatcher (Swift, Objc supported).
+  iOS App Time Dispatcher (Swift, Objc supported).
                        DESC
 
   s.homepage         = 'https://github.com/reers/Rhea'

@@ -3,7 +3,7 @@ use_frameworks!
 platform :ios, '10.0'
 
 target 'Rhea_Example' do
-  pod 'Rhea', :path => '../'
+  pod 'RheaTime', :path => '../'
 
   target 'Rhea_Tests' do
     inherit! :search_paths
