@@ -20,12 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString * RheaTimeName NS_EXTENSIBLE_STRING_ENUM;
 /// `load`
 FOUNDATION_EXPORT RheaTimeName const RheaTimeNameLoad;
+/// `appWillFinishLaunching`
+FOUNDATION_EXPORT RheaTimeName const RheaTimeNameAppWillFinishLaunching;
 /// `appDidFinishLaunching`
 FOUNDATION_EXPORT RheaTimeName const RheaTimeNameAppDidFinishLaunching;
 
 @interface Rhea : NSObject
 + (instancetype)shared;
-- (void)triggerWithTime:(RheaTimeName)timeName;
+- (void)triggerTime:(RheaTimeName)timeName NS_SWIFT_NAME(trigger(_:));
 @end
 
 NS_ASSUME_NONNULL_END

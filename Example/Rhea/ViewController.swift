@@ -25,6 +25,11 @@ extension Rhea {
     func appDidFinishLaunching_viewController() {
         ViewController.doSomethingWhenAppDidFinishLaunching()
     }
+    
+    @objc
+    func appWillFinishLaunching_viewController() {
+        os_log("appWillFinishLaunching_viewController")
+    }
 }
 
 class ViewController: UIViewController {
@@ -36,7 +41,7 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Rhea.shared().trigger(withTime: .mainViewControllerDidAppear)
+        Rhea.shared().trigger(.mainViewControllerDidAppear)
     }
 
     override func didReceiveMemoryWarning() {
