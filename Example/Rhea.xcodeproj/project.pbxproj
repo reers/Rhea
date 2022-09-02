@@ -298,11 +298,11 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Rhea_Example/Pods-Rhea_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Rhea/Rhea.framework",
+				"${BUILT_PRODUCTS_DIR}/RheaTime/RheaTime.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rhea.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RheaTime.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

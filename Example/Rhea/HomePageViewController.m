@@ -8,7 +8,7 @@
 
 #import "HomePageViewController.h"
 
-@import Rhea;
+@import RheaTime;
 
 @interface HomePageViewController ()
 

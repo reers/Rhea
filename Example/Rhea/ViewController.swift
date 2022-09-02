@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Rhea
+import RheaTime
 import OSLog
 
 extension RheaTimeName {

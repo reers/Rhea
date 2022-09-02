@@ -1,16 +1,16 @@
 PODS:
-  - Rhea (0.1.0)
+  - RheaTime (0.1.0)
 
 DEPENDENCIES:
-  - Rhea (from `../`)
+  - RheaTime (from `../`)
 
 EXTERNAL SOURCES:
-  Rhea:
+  RheaTime:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Rhea: 50e7c584f0542cd3e983fbf898ad79b72c8f1774
+  RheaTime: 8e03cd6dd283db3282efdd480c13257ff0b8d7e6
 
-PODFILE CHECKSUM: 8ee99c744df8932ed8d67e9a151ed7c7218e07aa
+PODFILE CHECKSUM: c96a80bcc4bcea212f95d07bb8928d54ba4468b8
 
 COCOAPODS: 1.11.2
