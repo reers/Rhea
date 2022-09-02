@@ -10,6 +10,7 @@
 #import <objc/message.h>
 
 RheaTimeName const RheaTimeNameLoad = @"load";
+RheaTimeName const RheaTimeNameAppWillFinishLaunching = @"appWillFinishLaunching";
 RheaTimeName const RheaTimeNameAppDidFinishLaunching = @"appDidFinishLaunching";
 
 @interface Rhea ()
@@ -20,7 +21,7 @@ RheaTimeName const RheaTimeNameAppDidFinishLaunching = @"appDidFinishLaunching";
 
 + (void)load {
     [[Rhea shared] sortMethodList];
-    [[Rhea shared] triggerWithTime:RheaTimeNameLoad];
+    [[Rhea shared] triggerTime:RheaTimeNameLoad];
 }
 
 + (instancetype)shared {
@@ -58,7 +59,7 @@ RheaTimeName const RheaTimeNameAppDidFinishLaunching = @"appDidFinishLaunching";
     free(methods);
 }
 
-- (void)triggerWithTime:(RheaTimeName)timeName {
+- (void)triggerTime:(RheaTimeName)timeName {
     NSArray<NSString *> *methods = self.methods[timeName];
     if (!methods || methods.count == 0) {
         return;
