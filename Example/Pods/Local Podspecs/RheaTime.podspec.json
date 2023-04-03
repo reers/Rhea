@@ -1,6 +1,6 @@
 {
   "name": "RheaTime",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "summary": "iOS App Time Dispatcher.",
   "description": "iOS App Time Dispatcher (Swift, Objc supported).",
   "homepage": "https://github.com/reers/Rhea",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/reers/Rhea.git",
-    "tag": "0.1.0"
+    "tag": "0.2.0"
   },
   "platforms": {
     "ios": "10.0"
