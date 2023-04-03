@@ -1,5 +1,5 @@
 PODS:
-  - RheaTime (0.1.0)
+  - RheaTime (0.2.0)
 
 DEPENDENCIES:
   - RheaTime (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  RheaTime: 8e03cd6dd283db3282efdd480c13257ff0b8d7e6
+  RheaTime: eeee574c0a3517feb924a6e6ad4b0c459efd838b
 
 PODFILE CHECKSUM: c96a80bcc4bcea212f95d07bb8928d54ba4468b8
 

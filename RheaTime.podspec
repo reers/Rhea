@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RheaTime'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'iOS App Time Dispatcher.'
 
   s.description      = <<-DESC
@@ -24,9 +24,5 @@ Pod::Spec.new do |s|
   s.swift_versions = '5.5'
 
   s.source_files = 'Sources/**/*'
-  
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
