@@ -32,16 +32,16 @@
 @end
 
 
-RheaTimeBegin(HomePageViewController)
-- (void)load_homePageViewController {
-    [HomePageViewController doSomethingWhenLoad];
-}
-
-- (void)appDidFinishLaunching_homePageViewController {
-    [HomePageViewController doSomethingWhenAppDidFinishLaunching];
-}
-
-- (void)mainViewControllerDidAppear_homePageViewController {
-    NSLog(@"HomePageViewController doSomethingWhenMainViewControllerDidAppear");
-}
-RheaTimeEnd
+//RheaTimeBegin(HomePageViewController)
+//- (void)load_homePageViewController {
+//    [HomePageViewController doSomethingWhenLoad];
+//}
+//
+//- (void)appDidFinishLaunching_homePageViewController {
+//    [HomePageViewController doSomethingWhenAppDidFinishLaunching];
+//}
+//
+//- (void)mainViewControllerDidAppear_homePageViewController {
+//    NSLog(@"HomePageViewController doSomethingWhenMainViewControllerDidAppear");
+//}
+//RheaTimeEnd

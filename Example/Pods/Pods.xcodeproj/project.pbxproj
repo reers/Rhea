@@ -8,14 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		1BEB131680AF2912AACC153A6BFE2483 /* Pods-Rhea_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6637C12C4658F09DE20AC2BEF1BB0F5F /* Pods-Rhea_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		215603A37AA3077A24247C1B495AC064 /* Rhea.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9936E722C5B8BA72C8EABAAEAD6774 /* Rhea.m */; };
-		2AE2A42714B763B94280957C1F50B9E6 /* Rhea.h in Headers */ = {isa = PBXBuildFile; fileRef = 0FA757C1AC460191B97A3F852A204345 /* Rhea.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3384778D6872BA1376AFF4AEC789A2BD /* Pods-Rhea_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D43A7ADD42754D5ED2B77F35F320880 /* Pods-Rhea_Tests-dummy.m */; };
 		5D1F8E709DB6C4A7DACD99044DCA2534 /* Pods-Rhea_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5BCA876E1CFCCDA6A1190BB17F22BCB7 /* Pods-Rhea_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		722C844F39A43D4034D120AB1D7E45E4 /* Pods-Rhea_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 914C46C7342F5A3859CB70535E4B7EB3 /* Pods-Rhea_Example-dummy.m */; };
 		79E61AF7CF8010AD454AEF7965B0F31A /* RheaTime-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A19E77A8EB795B7A9838C0F830A23CB6 /* RheaTime-dummy.m */; };
 		81F12CA51B8A47CFED80D554AB9FB8DE /* Rhea.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0EB573FDDBBFD344046F52D90623F5F /* Rhea.swift */; };
 		982E25DEC7CCE36B541A1BD66A3E64C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		D05B67BC29DAB60200FD283A /* OCRhea.h in Headers */ = {isa = PBXBuildFile; fileRef = D05B67BA29DAB60200FD283A /* OCRhea.h */; };
+		D05B67BD29DAB60200FD283A /* OCRhea.m in Sources */ = {isa = PBXBuildFile; fileRef = D05B67BB29DAB60200FD283A /* OCRhea.m */; };
+		D05B67BF29DABEA200FD283A /* RheaDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05B67BE29DABEA200FD283A /* RheaDelegate.swift */; };
+		D05B67C129DABEC200FD283A /* RheaConfigable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05B67C029DABEC200FD283A /* RheaConfigable.swift */; };
+		D05B67C329DABEDB00FD283A /* RheaEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05B67C229DABEDB00FD283A /* RheaEvent.swift */; };
+		D05B67C529DABEF100FD283A /* RheaContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05B67C429DABEF100FD283A /* RheaContext.swift */; };
 		E747199B0D44C9F9D7F82EB0D39129EA /* RheaTime-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C6987824254D33C26CBE337CA8B6B413 /* RheaTime-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA3E7E046FF291F773C55AF219E0EA2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		FC7B3D2FBCA9A6421F2A6404BA15C5C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
@@ -39,12 +43,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		052D382B1CC0DB50B58069EE8863F947 /* RheaTime.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = RheaTime.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		052D382B1CC0DB50B58069EE8863F947 /* RheaTime.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = RheaTime.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		054B7E836DDE54F2A4FACB57EF1E46A3 /* RheaTime-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "RheaTime-Info.plist"; sourceTree = "<group>"; };
-		0FA757C1AC460191B97A3F852A204345 /* Rhea.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Rhea.h; path = Sources/Rhea.h; sourceTree = "<group>"; };
 		10D0724CE9CB937C1B16DE2E4B8D5AAE /* RheaTime */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = RheaTime; path = RheaTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1981B02F7B8C343D6A3026B56E1E73E5 /* Pods-Rhea_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Rhea_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1C9936E722C5B8BA72C8EABAAEAD6774 /* Rhea.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Rhea.m; path = Sources/Rhea.m; sourceTree = "<group>"; };
 		25B7D871E7C8431D7FA814F0597AB28B /* Pods-Rhea_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Rhea_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		338B87BEEA2C7BF60AE6BE5C5401B75B /* Pods-Rhea_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Rhea_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		3C7E3A6FFA5BA2726ED69E9B7713A555 /* Pods-Rhea_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Rhea_Tests"; path = Pods_Rhea_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,21 +58,27 @@
 		5BCA876E1CFCCDA6A1190BB17F22BCB7 /* Pods-Rhea_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Rhea_Example-umbrella.h"; sourceTree = "<group>"; };
 		6209AB907804BA78ED7646E94BB569BF /* Pods-Rhea_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Rhea_Example"; path = Pods_Rhea_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6637C12C4658F09DE20AC2BEF1BB0F5F /* Pods-Rhea_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Rhea_Tests-umbrella.h"; sourceTree = "<group>"; };
-		6E388988895224EC359AF4EF7FB73087 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		6E388988895224EC359AF4EF7FB73087 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		714B8D45B776249FDF74C1A65624984E /* RheaTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = RheaTime.release.xcconfig; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		74CF4F2072966F6EDDACE21D12D97913 /* Pods-Rhea_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Rhea_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		7A8366914ECDDA8561381494B91041D7 /* RheaTime.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = RheaTime.modulemap; sourceTree = "<group>"; };
-		868CBDA60F81070678ED59393D842B2F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		868CBDA60F81070678ED59393D842B2F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		914C46C7342F5A3859CB70535E4B7EB3 /* Pods-Rhea_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Rhea_Example-dummy.m"; sourceTree = "<group>"; };
 		97C05620D05BAC590EE8328A02E5BF85 /* RheaTime-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RheaTime-prefix.pch"; sourceTree = "<group>"; };
 		9D43A7ADD42754D5ED2B77F35F320880 /* Pods-Rhea_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Rhea_Tests-dummy.m"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A19E77A8EB795B7A9838C0F830A23CB6 /* RheaTime-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RheaTime-dummy.m"; sourceTree = "<group>"; };
 		A3B3B22A184360C56266BCEEA39CB8E7 /* Pods-Rhea_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Rhea_Example.modulemap"; sourceTree = "<group>"; };
 		AE8D26E5A1CB24F6B739C53056011355 /* Pods-Rhea_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Rhea_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C1744367858CFBCEC7948F2F2CC489FB /* Pods-Rhea_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Rhea_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C6987824254D33C26CBE337CA8B6B413 /* RheaTime-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RheaTime-umbrella.h"; sourceTree = "<group>"; };
+		D05B67BA29DAB60200FD283A /* OCRhea.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCRhea.h; sourceTree = "<group>"; };
+		D05B67BB29DAB60200FD283A /* OCRhea.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCRhea.m; sourceTree = "<group>"; };
+		D05B67BE29DABEA200FD283A /* RheaDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RheaDelegate.swift; sourceTree = "<group>"; };
+		D05B67C029DABEC200FD283A /* RheaConfigable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RheaConfigable.swift; sourceTree = "<group>"; };
+		D05B67C229DABEDB00FD283A /* RheaEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RheaEvent.swift; sourceTree = "<group>"; };
+		D05B67C429DABEF100FD283A /* RheaContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RheaContext.swift; sourceTree = "<group>"; };
 		DD48B0C755AAA9416661DF5277677DEC /* Pods-Rhea_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Rhea_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		E0EB573FDDBBFD344046F52D90623F5F /* Rhea.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Rhea.swift; path = Sources/Rhea.swift; sourceTree = "<group>"; };
 		F421053062CEFA254DCCDF7C844F17BF /* Pods-Rhea_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Rhea_Example-frameworks.sh"; sourceTree = "<group>"; };
@@ -157,9 +165,13 @@
 		A313BFDA7E7AD85DC0034AFB62A68B68 /* RheaTime */ = {
 			isa = PBXGroup;
 			children = (
-				0FA757C1AC460191B97A3F852A204345 /* Rhea.h */,
-				1C9936E722C5B8BA72C8EABAAEAD6774 /* Rhea.m */,
+				D05B67BA29DAB60200FD283A /* OCRhea.h */,
+				D05B67BB29DAB60200FD283A /* OCRhea.m */,
 				E0EB573FDDBBFD344046F52D90623F5F /* Rhea.swift */,
+				D05B67C029DABEC200FD283A /* RheaConfigable.swift */,
+				D05B67BE29DABEA200FD283A /* RheaDelegate.swift */,
+				D05B67C429DABEF100FD283A /* RheaContext.swift */,
+				D05B67C229DABEDB00FD283A /* RheaEvent.swift */,
 				D5130CE6006E0FE07F1C3A1A56199605 /* Pod */,
 				907B5000E9ACF4EDB22EE96852AD8DE9 /* Support Files */,
 			);
@@ -236,8 +248,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AE2A42714B763B94280957C1F50B9E6 /* Rhea.h in Headers */,
 				E747199B0D44C9F9D7F82EB0D39129EA /* RheaTime-umbrella.h in Headers */,
+				D05B67BC29DAB60200FD283A /* OCRhea.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,9 +394,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				215603A37AA3077A24247C1B495AC064 /* Rhea.m in Sources */,
+				D05B67BF29DABEA200FD283A /* RheaDelegate.swift in Sources */,
+				D05B67BD29DAB60200FD283A /* OCRhea.m in Sources */,
+				D05B67C329DABEDB00FD283A /* RheaEvent.swift in Sources */,
 				81F12CA51B8A47CFED80D554AB9FB8DE /* Rhea.swift in Sources */,
+				D05B67C129DABEC200FD283A /* RheaConfigable.swift in Sources */,
 				79E61AF7CF8010AD454AEF7965B0F31A /* RheaTime-dummy.m in Sources */,
+				D05B67C529DABEF100FD283A /* RheaContext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,8 +617,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};

@@ -10,8 +10,6 @@
 #endif
 #endif
 
-#import "Rhea.h"
-
 FOUNDATION_EXPORT double RheaTimeVersionNumber;
 FOUNDATION_EXPORT const unsigned char RheaTimeVersionString[];
 

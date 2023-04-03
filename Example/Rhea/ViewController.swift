@@ -10,26 +10,8 @@ import UIKit
 import RheaTime
 import OSLog
 
-extension RheaTimeName {
-    static let mainViewControllerDidAppear = RheaTimeName(rawValue: "mainViewControllerDidAppear")
-}
-
-extension Rhea {
-    
-    @objc
-    func load_viewController() {
-        ViewController.doSomethingWhenload()
-    }
-    
-    @objc
-    func appDidFinishLaunching_viewController() {
-        ViewController.doSomethingWhenAppDidFinishLaunching()
-    }
-    
-    @objc
-    func appWillFinishLaunching_viewController() {
-        os_log("appWillFinishLaunching_viewController")
-    }
+extension RheaEvent {
+    static let homepageDidAppear: RheaEvent = "app_homepageDidAppear"
 }
 
 class ViewController: UIViewController {
@@ -38,23 +20,29 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Rhea.shared().trigger(.mainViewControllerDidAppear)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    class func doSomethingWhenload() {
-        os_log("ViewController doSomethingWhenload")
-    }
-    
-    class func doSomethingWhenAppDidFinishLaunching() {
-        os_log("ViewController doSomethingWhenAppDidFinishLaunching")
+        Rhea.trigger(event: .homepageDidAppear)
     }
 }
 
+
+extension ViewController: RheaDelegate {
+    static func rheaLoad() {
+        print(#function)
+    }
+
+    static func rheaAppDidFinishLaunching(context: RheaContext) {
+        print(#function)
+        print(context)
+    }
+
+    static func rheaDidReceiveCustomEvent(event: RheaEvent) {
+        switch event {
+        case "register_route": print("register_route")
+        case .homepageDidAppear: print(RheaEvent.homepageDidAppear)
+        default: break
+        }
+    }
+}
