@@ -30,11 +30,11 @@ class ViewController: UIViewController {
 
 extension ViewController: RheaDelegate {
     static func rheaLoad() {
-        print(#function)
+        print("ViewController \(#function)")
     }
 
     static func rheaAppDidFinishLaunching(context: RheaContext) {
-        print(#function)
+        print("ViewController \(#function)")
         print(context)
     }
 

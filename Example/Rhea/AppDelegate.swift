@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Rhea.trigger(event: "register_route")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            Rhea.trigger(event: .userLoggedIn)
+        }
         return true
     }
 
