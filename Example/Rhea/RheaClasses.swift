@@ -12,7 +12,8 @@ import RheaTime
 extension Rhea: RheaConfigable {
     public static var classNames: [String] {
         return [
-            "Rhea_Example.ViewController"
+            "Rhea_Example.ViewController",
+            "REAccountModule"
         ]
     }
 }
