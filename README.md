@@ -42,6 +42,10 @@ extension ViewController: RheaDelegate {
     static func rheaLoad() {
         print(#function)
     }
+    
+    static func rheaPremain() {
+        print("ViewController \(#function)")
+    }
 
     static func rheaAppDidFinishLaunching(context: RheaContext) {
         print(#function)
