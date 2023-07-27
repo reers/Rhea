@@ -8,6 +8,10 @@
 #import "OCRhea.h"
 #import <RheaTime/RheaTime-Swift.h>
 
+__attribute__((constructor)) static void premain() {
+    [Rhea rhea_premain];
+}
+
 @implementation OCRhea
 + (void)load {
     [Rhea rhea_load];
