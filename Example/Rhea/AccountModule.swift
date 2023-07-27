@@ -18,6 +18,10 @@ class AccountModule: NSObject, RheaDelegate {
     static func rheaLoad() {
         print("AccountModule \(#function)")
     }
+    
+    static func rheaPremain() {
+        print("AccountModule \(#function)")
+    }
 
     static func rheaAppDidFinishLaunching(context: RheaContext) {
         print("AccountModule \(#function)")

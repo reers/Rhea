@@ -40,6 +40,13 @@ public class Rhea: NSObject {
         #endif
         registerNotifications()
     }
+    
+    @objc
+    public static func rhea_premain() {
+        classes.forEach { rheaClass in
+            rheaClass.rheaPremain()
+        }
+    }
 
     public static func trigger(event: RheaEvent) {
         classes.forEach { rheaClass in
