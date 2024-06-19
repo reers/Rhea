@@ -24,5 +24,15 @@ Pod::Spec.new do |s|
   s.swift_versions = '5.5'
 
   s.source_files = 'Sources/**/*'
+  
+  # Add other swift flags
+  s.pod_target_xcconfig = {
+    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers'
+  }
+  
+  # Optionally, if you want to apply this to the user target as well
+  s.user_target_xcconfig = {
+    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers'
+  }
 
 end

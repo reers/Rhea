@@ -11,6 +11,18 @@ import RheaTime
 import OSLog
 // import RheaTimeExtension
 
+@_used
+@_section("__DATA,__rheaLoadH") let a: RheaFuncType = {
+    // do something when load
+    print("~~~~ ViewController load")
+}
+
+@_used
+@_section("__DATA,__rheaLoadH") let b: RheaFuncType = {
+    // do something when load
+    print("~~~~ ViewController load 2222")
+}
+
 extension RheaEvent {
     static let homepageDidAppear: RheaEvent = "app_homepageDidAppear"
 }
