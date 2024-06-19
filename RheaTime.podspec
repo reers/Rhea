@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/reers/Rhea.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '10.0'
-  s.swift_versions = '5.5'
+  s.swift_versions = '5.10'
 
   s.source_files = 'Sources/**/*'
   

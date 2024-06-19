@@ -5,6 +5,8 @@
 //  Created by phoenix on 2022/8/13.
 //
 
+import Foundation
+import UIKit
 import MachO
 
 @_used
