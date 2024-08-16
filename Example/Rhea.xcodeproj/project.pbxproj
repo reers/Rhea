@@ -56,6 +56,7 @@
 		D0CBE91328A7F84F00AECF9E /* Rhea_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rhea_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		D0CBE91428A7F84F00AECF9E /* HomePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
 		D0CBE91528A7F84F00AECF9E /* HomePageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
+		D0D022152C6B4F0C00CB81AE /* GAIATypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIATypes.h; sourceTree = "<group>"; };
 		D0E8AA0129D746A500A97A0F /* RheaClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RheaClasses.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +132,7 @@
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				D0D022152C6B4F0C00CB81AE /* GAIATypes.h */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 				D0CBE91428A7F84F00AECF9E /* HomePageViewController.h */,
 				D0CBE91528A7F84F00AECF9E /* HomePageViewController.m */,

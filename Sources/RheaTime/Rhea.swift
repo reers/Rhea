@@ -75,6 +75,10 @@ public class Rhea: NSObject {
         let startReadSection = Date()
         readCustomSectionData()
         print("$$$$ \(Date().timeIntervalSince(startReadSection) * 1000)")
+        
+        
+        
+        
     }
     
     static var startPT: UnsafeRawPointer?
@@ -130,7 +134,7 @@ public class Rhea: NSObject {
                 if let sectionData = getSectionData(
                     header: header,
                     segmentName: "__DATA",
-                    sectionName: "__rheaLoadH",
+                    sectionName: "__psection",
                     baseAddress: baseAddress
                 ) {
                     print("Section data from image \(i): \(sectionData)")
@@ -191,8 +195,8 @@ public class Rhea: NSObject {
 //                            let start = UnsafeRawPointer(bitPattern: UInt(sectionAddress))!
                             
                             var count = 0
-                            let typeSize = MemoryLayout<RheaFuncType>.size
-                            let typeStride = MemoryLayout<RheaFuncType>.stride
+                            let typeSize = MemoryLayout<RheaStringAndFunc>.size
+                            let typeStride = MemoryLayout<RheaStringAndFunc>.stride
                             if sectionSize == typeSize {
                                 count = 1
                             } else {
@@ -201,11 +205,14 @@ public class Rhea: NSObject {
                             
                             print("size: \(sectionSize)")
                             if sectionSize > 0 {
-                                let function = start.bindMemory(to: RheaFuncType.self, capacity: count)
+                                let function = start.bindMemory(to: RheaStringAndFunc.self, capacity: count)
                                 let buffer = UnsafeBufferPointer(start: function, count: count)
 
                                 for function in buffer {
-                                    function()
+//                                    function()
+//                                    print(function)
+                                    print(function.0)
+                                    function.1()
                                 }
                             }
                             
