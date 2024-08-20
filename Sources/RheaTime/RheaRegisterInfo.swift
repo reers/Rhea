@@ -1,5 +1,5 @@
 //
-//  RheaSections.swift
+//  RheaRegisterInfo.swift
 //  RheaTime
 //
 //  Created by phoenix on 2024/6/19.

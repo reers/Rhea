@@ -10,23 +10,54 @@ import UIKit
 import RheaTime
 import OSLog
 
+
+
 @_used
 @_section("__DATA,__rheatime")
-let test2: RheaRegisterInfo = ("rhea.load.5.true", { context in
+let test4: RheaRegisterInfo = ("rhea.load.2.true", { context in
     // do something when load
     
     print("参数是: \(context.param)")
-    print("~~~~ ViewController load")
+    print("~~~~ ViewController load 2")
 })
+
+
+@_used
+@_section("__DATA,__rheatime")
+let test2: RheaRegisterInfo = ("rhea.load.5.false", { context in
+    // do something when load
+    
+    print("参数是: \(context.param)")
+    print("~~~~ ViewController load 5")
+})
+
 
 
 @_used 
 @_section("__DATA,__rheatime")
-let test: RheaRegisterInfo = ("rhea.premain.5.true", { context in
+let test: RheaRegisterInfo = ("rhea.premain.5.false", { context in
     // do something when load
     
     print("参数是: \(context.param)")
     print("~~~~ ViewController premain")
+})
+
+@_used
+@_section("__DATA,__rheatime")
+let test3: RheaRegisterInfo = ("rhea.appFinishLaunching.5.false", { context in
+    // do something when load
+    
+    print("参数是: \(context.launchOptions)")
+    print("~~~~ ViewController appFinishLaunching")
+})
+
+@_used
+@_section("__DATA,__rheatime")
+let test5: RheaRegisterInfo = ("rhea.homepageDidAppear.5.false", { context in
+    // do something when load
+    
+    print("参数是: \(context.launchOptions)")
+    print("~~~~ ViewController homepageDidAppear")
 })
 
 extension RheaEvent {
@@ -51,22 +82,9 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Rhea.trigger(event: .homepageDidAppear)
-        
+        Rhea.trigger(event: .init(stringLiteral: "load"))
+        Rhea.trigger(event: "homepageDidAppear")
 //        test()
-    }
-    
-    func test() {
-        _dyld_register_func_for_add_image { (image, slide) in
-            var info = Dl_info()
-            if (dladdr(image, &info) == 0) {
-                return
-            }
-            if (!String(cString: info.dli_fname).hasPrefix(Bundle.main.bundlePath)) {
-                return
-            }
-            print("~~~~ image: \(String(describing: image))")
-        }
     }
 }
 

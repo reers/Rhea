@@ -14,7 +14,7 @@ public struct RheaEvent: ExpressibleByStringLiteral, Equatable, Hashable, RawRep
         self.rawValue = value
     }
 
-    public init?(rawValue: String) {
+    public init(rawValue: String) {
         self.rawValue = rawValue
     }
 
