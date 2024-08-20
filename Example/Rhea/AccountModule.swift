@@ -14,23 +14,6 @@ extension RheaEvent {
 }
 
 @objc(REAccountModule)
-class AccountModule: NSObject, RheaDelegate {
-    static func rheaLoad() {
-        print("AccountModule \(#function)")
-    }
+class AccountModule: NSObject {
     
-    static func rheaPremain() {
-        print("AccountModule \(#function)")
-    }
-
-    static func rheaAppDidFinishLaunching(context: RheaContext) {
-        print("AccountModule \(#function)")
-        print(context)
-    }
-
-    static func rheaDidReceiveCustomEvent(event: RheaEvent) {
-        if event == .userLoggedIn {
-            print(RheaEvent.userLoggedIn)
-        }
-    }
 }
