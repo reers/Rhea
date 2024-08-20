@@ -19,6 +19,7 @@ struct RheaTask {
 @objc
 public class Rhea: NSObject {
     static var tasks: [String: [RheaTask]] = [:]
+    static let segmentName = "__DATA"
     static let sectionName = "__rheatime"
     
     static let loadImageFunc: @convention(c) (UnsafePointer<mach_header>?, Int) -> Void = { mh, slide in
@@ -29,29 +30,44 @@ public class Rhea: NSObject {
         guard let machHeader = mh else { return }
         
 //        DispatchQueue.main.async {
-//            readSection(header: machHeader, segmentName: "__DATA", sectionName: sectionName, slide: slide)
-        getSectionData(header: machHeader, segmentName: "__DATA", sectionName: sectionName, baseAddress: slide)
+//            readSection(header: machHeader, segmentName: segmentName, sectionName: sectionName, slide: slide)
+        getSectionData(header: machHeader, segmentName: segmentName, sectionName: sectionName, baseAddress: slide)
 //        }
     }
 
     @objc
     public static func rhea_load() {
         registerNotifications()
-        _dyld_register_func_for_add_image(loadImageFunc)
+        readSectionDatas()
+        
+        callbackForTime("load")
+//        guard let rheaTasks = tasks["load"] else { return }
+//        rheaTasks
+//            .sorted { $0.priority > $1.priority }
+//            .forEach { $0.function(.init()) }
+//        _dyld_register_func_for_add_image(loadImageFunc)
     }
     
     @objc
     public static func rhea_premain() {
-        guard let rheaTasks = tasks["premain"] else { return }
-        rheaTasks
-            .sorted { $0.priority > $1.priority }
-            .forEach { $0.function(.init()) }
+        callbackForTime("premain")
+//        guard let rheaTasks = tasks["premain"] else { return }
+//        rheaTasks
+//            .sorted { $0.priority > $1.priority }
+//            .forEach { $0.function(.init()) }
     }
 
     public static func trigger(event: RheaEvent) {
 //        classes.forEach { rheaClass in
 //            rheaClass.rheaDidReceiveCustomEvent(event: event)
 //        }
+    }
+    
+    private static func callbackForTime(_ time: String, context: RheaContext = .init()) {
+        guard let rheaTasks = tasks[time] else { return }
+        rheaTasks
+            .sorted { $0.priority > $1.priority }
+            .forEach { $0.function(context) }
     }
     
     
@@ -69,7 +85,34 @@ public class Rhea: NSObject {
 
     
     private static func readSectionDatas() {
-        
+        let imageCount = _dyld_image_count()
+
+        for i in 0..<imageCount {
+            let imageName = String(cString: _dyld_get_image_name(i))
+//            if !imageName.hasPrefix(Bundle.main.bundlePath) {
+//                continue
+//            }
+//            print("#### image name: \(imageName)")
+            guard imageName.hasPrefix(Bundle.main.bundlePath) else { continue }
+            
+//            if imageName.hasSuffix("Rhea_Example") {
+//                continue
+//            }
+            guard let machHeader = _dyld_get_image_header(i) else { continue }
+            let slide = _dyld_get_image_vmaddr_slide(i)
+            readSectionData2(header: machHeader, segmentName: "__DATA", sectionName: sectionName, slide: slide)
+//            getSectionData(header: machHeader, segmentName: "__DATA", sectionName: sectionName, baseAddress: slide)
+//            if let header = _dyld_get_image_header(i) {
+//                if let sectionData = getSectionData(
+//                    header: header,
+//                    segmentName: "__DATA",
+//                    sectionName: "__rheatime",
+//                    baseAddress: baseAddress
+//                ) {
+//                    print("Section data from image \(i): \(sectionData)")
+//                }
+//            }
+        }
     }
 
     private static func registerNotifications() {
@@ -110,7 +153,7 @@ public class Rhea: NSObject {
                 continue
             }
             
-            print("#### image name: \(imageName)")
+//            print("#### image name: \(imageName)")
 //            if imageName.hasSuffix("Rhea_Example") {
 //                continue
 //            }
@@ -200,6 +243,89 @@ public class Rhea: NSObject {
                     }
                 }
             }
+            cursor = cursor.advanced(by: Int(segmentCmd.pointee.cmdsize) - MemoryLayout<segment_command_64>.size)
+        }
+    }
+    
+    
+    static func readSectionData2(header: UnsafePointer<mach_header>, segmentName: String, sectionName: String, slide: Int) {
+        var cursor = UnsafeRawPointer(header).advanced(by: MemoryLayout<mach_header_64>.size)
+        for _ in 0..<header.pointee.ncmds {
+            let segmentCmd = cursor.bindMemory(to: segment_command_64.self, capacity: 1)
+            cursor = cursor.advanced(by: MemoryLayout<segment_command_64>.size)
+            
+            if segmentCmd.pointee.cmd == LC_SEGMENT_64 {
+                let segmentNamePtr = withUnsafeBytes(of: segmentCmd.pointee.segname) { rawPtr -> String in
+                    let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
+                    return String(cString: ptr)
+                }
+                
+                if segmentNamePtr == segmentName {
+                    var sectionCursor = cursor
+                    for _ in 0..<Int(segmentCmd.pointee.nsects) {
+                        let sectionCmd = sectionCursor.bindMemory(to: section_64.self, capacity: 1)
+                        sectionCursor = sectionCursor.advanced(by: MemoryLayout<section_64>.size)
+                        
+                        let sectionNamePtr = withUnsafeBytes(of: sectionCmd.pointee.sectname) { rawPtr -> String in
+                            let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
+                            return String(cString: ptr)
+                        }
+                        print("~~~~ section name: \(sectionNamePtr)")
+                        if sectionNamePtr == sectionName {
+                            let sectionAddress = Int(sectionCmd.pointee.addr)
+                            let sectionSize = Int(sectionCmd.pointee.size)
+                            
+                            let sectionStart = slide + UnsafeRawPointer(bitPattern: sectionAddress)!
+                            
+                            print("~~~~ start2 \(sectionStart)")
+                            
+                            var count = 0
+                            let typeSize = MemoryLayout<RheaRegisterInfo>.size
+                            let typeStride = MemoryLayout<RheaRegisterInfo>.stride
+                            if sectionSize == typeSize {
+                                count = 1
+                            } else {
+                                count = 1 + (sectionSize - typeSize) / typeStride
+                            }
+                            
+                            print("size: \(sectionSize)")
+                            if sectionSize > 0 {
+                                let registerInfoPtr = sectionStart.bindMemory(to: RheaRegisterInfo.self, capacity: count)
+                                let buffer = UnsafeBufferPointer(start: registerInfoPtr, count: count)
+                                
+                                for info in buffer {
+                                    let string = info.0
+                                    let function = info.1
+                                    
+                                    let parts = string.description.components(separatedBy: ".")
+                                    if parts.count == 4 {
+                                        let timeName = parts[1]
+                                        let priority = Int(parts[2]) ?? 5
+                                        let repeatable = Bool(parts[3]) ?? false
+                                        let task = RheaTask(name: timeName, priority: priority, repeatable: repeatable, function: function)
+                                        var existingTasks = tasks[timeName] ?? []
+                                        existingTasks.append(task)
+                                        tasks[timeName] = existingTasks
+                                    } else {
+                                        assert(false, "Register info string should have 4 parts")
+                                    }
+                                }
+//                                let function = start.bindMemory(to: RheaRegisterInfo.self, capacity: count)
+//                                let buffer = UnsafeBufferPointer(start: function, count: count)
+//
+//                                for function in buffer {
+//                                    print(function.0);
+//                                    
+//                                    let context = RheaContext()
+//                                    context.param = 33333
+//                                    function.1(context);
+//                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
             cursor = cursor.advanced(by: Int(segmentCmd.pointee.cmdsize) - MemoryLayout<segment_command_64>.size)
         }
     }
