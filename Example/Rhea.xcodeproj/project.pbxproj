@@ -17,7 +17,6 @@
 		D0228A172A72BBD60042252C /* RheaTimeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0228A162A72BBD60042252C /* RheaTimeExtension.swift */; };
 		D0C0237D2A4CA80C00EA2330 /* AccountModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0237C2A4CA80C00EA2330 /* AccountModule.swift */; };
 		D0CBE91628A7F84F00AECF9E /* HomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBE91528A7F84F00AECF9E /* HomePageViewController.m */; };
-		D0E8AA0229D746A500A97A0F /* RheaClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8AA0129D746A500A97A0F /* RheaClasses.swift */; };
 		E77AE57B299237DE5CC8DCB5 /* Pods_Rhea_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FDA5B7A0F18C2EEE2B85E5B /* Pods_Rhea_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,7 +56,6 @@
 		D0CBE91428A7F84F00AECF9E /* HomePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageViewController.h; sourceTree = "<group>"; };
 		D0CBE91528A7F84F00AECF9E /* HomePageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageViewController.m; sourceTree = "<group>"; };
 		D0D022152C6B4F0C00CB81AE /* GAIATypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIATypes.h; sourceTree = "<group>"; };
-		D0E8AA0129D746A500A97A0F /* RheaClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RheaClasses.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +124,6 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				D0E8AA0129D746A500A97A0F /* RheaClasses.swift */,
 				D0C0237C2A4CA80C00EA2330 /* AccountModule.swift */,
 				D0228A162A72BBD60042252C /* RheaTimeExtension.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -230,10 +227,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = VZL7XX9F38;
 						LastSwiftMigration = 1320;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = VZL7XX9F38;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -352,7 +351,6 @@
 				D0228A172A72BBD60042252C /* RheaTimeExtension.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				D0E8AA0229D746A500A97A0F /* RheaClasses.swift in Sources */,
 				D0C0237D2A4CA80C00EA2330 /* AccountModule.swift in Sources */,
 				D0CBE91628A7F84F00AECF9E /* HomePageViewController.m in Sources */,
 			);
@@ -501,11 +499,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = VZL7XX9F38;
 				INFOPLIST_FILE = Rhea/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.phoenix.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Rhea/Rhea_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -520,11 +519,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = VZL7XX9F38;
 				INFOPLIST_FILE = Rhea/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.phoenix.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Rhea/Rhea_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -536,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3FF1CEEAD51DF070F3506FE8 /* Pods-Rhea_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = VZL7XX9F38;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -546,7 +547,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.phoenix.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -558,13 +559,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 782AC6A7B0638379DFBAEDB6 /* Pods-Rhea_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = VZL7XX9F38;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.phoenix.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
