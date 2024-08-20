@@ -10,6 +10,15 @@ import UIKit
 import RheaTime
 import OSLog
 
+@_used
+@_section("__DATA,__rheatime")
+let test2: RheaRegisterInfo = ("rhea.load.5.true", { context in
+    // do something when load
+    
+    print("参数是: \(context.param)")
+    print("~~~~ ViewController load")
+})
+
 
 @_used 
 @_section("__DATA,__rheatime")
@@ -17,9 +26,7 @@ let test: RheaRegisterInfo = ("rhea.premain.5.true", { context in
     // do something when load
     
     print("参数是: \(context.param)")
-    print("~~~~ ViewController load")
-    ViewController.test()
-    ViewController().instanceTest()
+    print("~~~~ ViewController premain")
 })
 
 extension RheaEvent {
