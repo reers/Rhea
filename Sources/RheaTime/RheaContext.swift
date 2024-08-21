@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 public class RheaContext: NSObject {
     public internal(set) var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
