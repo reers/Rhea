@@ -60,6 +60,29 @@ let test5: RheaRegisterInfo = ("rhea.homepageDidAppear.5.false", { context in
     print("~~~~ ViewController homepageDidAppear")
 })
 
+@_used
+@_section("__DATA,__rheatime")
+let test6: RheaRegisterInfo = ("rhea.homepageDidAppear.5.false", dfasdf)
+let dfasdf: RheaFunction = { context in
+    // do something when load
+    
+    print("参数是: \(context.launchOptions)")
+    print("~~~~ ViewController homepageDidAppear 222222 ")
+}
+
+@_used
+@_section("__DATA,__rheatime")
+let __macro_local_4rheafMu_: RheaRegisterInfo = ("rhea.load.5.true", __macro_local_8rheaFuncfMu_)
+let __macro_local_8rheaFuncfMu_: @convention(c) (RheaContext) -> Void = { context in
+    
+    print("~~~~ __macro_local_8rheaFuncfMu_ ")
+}
+
+
+//#rhea(time: .appFinishLaunching, priority: 5, repeatable: true) {
+//
+//}
+
 extension RheaEvent {
     static let homepageDidAppear: RheaEvent = "app_homepageDidAppear"
 }
