@@ -9,5 +9,6 @@
 public macro rhea(
     time: RheaEvent,
     priority: Int,
-    repeatable: Bool
+    repeatable: Bool,
+    function: RheaFunction
 ) = #externalMacro(module: "RheaTimeMacros", type: "WriteSectionMacro")
