@@ -12,3 +12,12 @@ public macro rhea(
     repeatable: Bool,
     function: RheaFunction
 ) = #externalMacro(module: "RheaTimeMacros", type: "WriteSectionMacro")
+
+
+@freestanding(expression)
+public macro rhea2(
+    time: RheaEvent,
+    priority: Int,
+    repeatable: Bool,
+    function: RheaFunction
+) = #externalMacro(module: "RheaTimeMacros", type: "WriteSectionMacro2")

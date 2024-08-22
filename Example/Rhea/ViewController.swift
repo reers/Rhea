@@ -10,7 +10,11 @@ import UIKit
 import RheaTime
 import OSLog
 
-
+@_used
+@_section("__DATA,__rheatime")
+let test555: RheaRegisterInfo = ("rhea.load.2.true", { context in
+    print("~~~~ ViewController load 5555")
+})
 
 @_used
 @_section("__DATA,__rheatime")
