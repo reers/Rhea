@@ -56,13 +56,14 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
                 break
             }
         }
-        
+        let isGlobal = context.lexicalContext.isEmpty
+        let staticString = isGlobal ? "" : "static "
         let infoName = "\(context.makeUniqueName("rhea"))"
         
         let declarationString = """
             @_used 
             @_section("__DATA,__rheatime")
-            let \(infoName): RheaRegisterInfo = (
+            \(staticString)let \(infoName): RheaRegisterInfo = (
                 "rhea.\(time).\(priority).\(repeatable)",
                 { \(signature ?? "context in")
                     \(functionBody)
