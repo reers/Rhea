@@ -33,11 +33,11 @@ let package = Package(
         ),
         .target(
             name: "RheaTime",
-            dependencies: ["RheaTimeMacros"],
+            dependencies: ["OCRhea", "RheaTimeMacros"],
             path: "Sources/RheaTime",
             swiftSettings: [.enableExperimentalFeature("SymbolLinkageMarkers")]
         ),
         
-        .target(name: "OCRhea", dependencies: ["RheaTime"]),
+        .target(name: "OCRhea"),
     ]
 )
