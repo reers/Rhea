@@ -15,9 +15,11 @@
 ///   - time: A `RheaEvent` representing the timing or event name for the callback.
 ///           This parameter also supports direct string input, which will be
 ///           processed by the framework as an event identifier.
-///   - priority: An integer indicating the execution priority of the callback.
-///               Default is 5. Typically ranges from 1 to 9, but can be any integer.
-///               Callbacks for the same event are sorted and executed based on this priority.
+///   - priority: A `RheaPriority` value indicating the execution priority of the callback.
+///               Default is `.normal`. Predefined values include `.veryLow`, `.low`,
+///               `.normal`, `.high`, and `.veryHigh`. Custom integer priorities are also
+///               supported. Callbacks for the same event are sorted and executed based
+///               on this priority.
 ///   - repeatable: A boolean flag indicating whether the callback can be triggered multiple times.
 ///                 If `false` (default), the callback will only be executed once.
 ///                 If `true`, the callback can be re-triggered on subsequent event occurrences.
@@ -30,7 +32,7 @@
 @freestanding(declaration)
 public macro rhea(
     time: RheaEvent,
-    priority: Int = 5,
+    priority: RheaPriority = .normal,
     repeatable: Bool = false,
     func: RheaFunction
 ) = #externalMacro(module: "RheaTimeMacros", type: "WriteTimeToSectionMacro")
