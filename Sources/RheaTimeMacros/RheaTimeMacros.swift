@@ -31,6 +31,15 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
             case "priority":
                 if let intLiteral = argument.expression.as(IntegerLiteralExprSyntax.self) {
                     priority = intLiteral.digits.text
+                } else if let memberAccess = argument.expression.as(MemberAccessExprSyntax.self) {
+                    let memberName = memberAccess.declName.baseName.text
+                    switch memberName {
+                    case "veryLow": priority = "1"
+                    case "low": priority = "3"
+                    case "high": priority = "7"
+                    case "veryHigh": priority = "9"
+                    default: priority = "5"
+                    }
                 }
             case "repeatable":
                 if let boolLiteral = argument.expression.as(BooleanLiteralExprSyntax.self) {
