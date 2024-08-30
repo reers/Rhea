@@ -83,7 +83,7 @@ public class Rhea: NSObject {
             let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
 
             let context = RheaContext(launchOptions: launchOptions)
-            callbackForTime("appFinishLaunching")
+            callbackForTime("appDidFinishLaunching")
         }
     }
     

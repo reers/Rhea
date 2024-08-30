@@ -16,16 +16,23 @@ public struct WriteSectionMacro: DeclarationMacro {
     ) throws -> [DeclSyntax] {
         let argumentList = node.argumentList
         var time: String = ""
-        var priority: String = ""
-        var repeatable: String = ""
+        var priority: String = "5"
+        var repeatable: String = "false"
         var functionBody: String = ""
         var signature: String?
         
         for argument in argumentList {
             switch argument.label?.text {
             case "time":
+                // RheaEvent type
                 if let memberAccess = argument.expression.as(MemberAccessExprSyntax.self) {
                     time = memberAccess.declName.baseName.text
+                }
+                
+                // String type
+                if let stringLiteral = argument.expression.as(StringLiteralExprSyntax.self),
+                   let hostValue = stringLiteral.segments.first?.as(StringSegmentSyntax.self)?.content.text {
+                    time = hostValue
                 }
             case "priority":
                 if let intLiteral = argument.expression.as(IntegerLiteralExprSyntax.self) {
