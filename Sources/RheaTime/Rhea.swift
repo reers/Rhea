@@ -37,8 +37,10 @@ public class Rhea: NSObject {
         callbackForTime("premain")
     }
 
-    public static func trigger(event: RheaEvent) {
-        callbackForTime(event.rawValue)
+    public static func trigger(event: RheaEvent, param: Any? = nil) {
+        let context = RheaContext()
+        context.param = param
+        callbackForTime(event.rawValue, context: context)
     }
     
     private static func callbackForTime(_ time: String, context: RheaContext = .init()) {
@@ -83,7 +85,7 @@ public class Rhea: NSObject {
             let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
 
             let context = RheaContext(launchOptions: launchOptions)
-            callbackForTime("appDidFinishLaunching")
+            callbackForTime("appDidFinishLaunching", context: context)
         }
     }
     
@@ -108,7 +110,8 @@ public class Rhea: NSObject {
             
             if segmentCmd.pointee.cmd == LC_SEGMENT_64 {
                 let segmentNamePtr = withUnsafeBytes(of: segmentCmd.pointee.segname) { rawPtr -> String in
-                    let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
+                    guard let address = rawPtr.baseAddress else { return "" }
+                    let ptr = address.assumingMemoryBound(to: CChar.self)
                     return String(cString: ptr)
                 }
                 
@@ -119,13 +122,17 @@ public class Rhea: NSObject {
                         sectionCursor = sectionCursor.advanced(by: MemoryLayout<section_64>.size)
                         
                         let sectionNamePtr = withUnsafeBytes(of: sectionCmd.pointee.sectname) { rawPtr -> String in
-                            let ptr = rawPtr.baseAddress!.assumingMemoryBound(to: CChar.self)
+                            guard let address = rawPtr.baseAddress else { return "" }
+                            let ptr = address.assumingMemoryBound(to: CChar.self)
                             return String(cString: ptr)
                         }
                         if sectionNamePtr == sectionName {
                             let sectionAddress = Int(sectionCmd.pointee.addr)
                             let sectionSize = Int(sectionCmd.pointee.size)
-                            let sectionStart = slide + UnsafeRawPointer(bitPattern: sectionAddress)!
+                            guard let sectionPointer = UnsafeRawPointer(bitPattern: sectionAddress) else {
+                                continue
+                            }
+                            let sectionStart = slide + sectionPointer
                             
                             var count = 0
                             let typeSize = MemoryLayout<RheaRegisterInfo>.size
