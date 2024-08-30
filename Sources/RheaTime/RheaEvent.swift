@@ -36,3 +36,28 @@ public struct RheaEvent: ExpressibleByStringLiteral, Equatable, Hashable, RawRep
         hasher.combine(rawValue)
     }
 }
+
+/// Extension to `RheaEvent` providing predefined event timings used by the Rhea framework.
+/// These events are automatically triggered by the framework and do not require manual invocation.
+extension RheaEvent {
+    /// Represents the timing equivalent to Objective-C's `+load` method.
+    ///
+    /// - Note: This event occurs very early in the app's lifecycle, before even `main()` is called.
+    ///         Use with caution as the runtime environment is not fully set up at this point.
+    ///         Automatically triggered by the framework; no need to call `Rhea.trigger(event: .load)`.
+    public static let load: RheaEvent = "load"
+    
+    /// Represents the timing of functions decorated with `__attribute__((constructor))`.
+    ///
+    /// - Note: This event occurs after `load` but still before `main()`.
+    ///         It's useful for early initialization that doesn't depend on the full runtime environment.
+    ///         Automatically triggered by the framework; no need to call `Rhea.trigger(event: .premain)`.
+    public static let premain: RheaEvent = "premain"
+    
+    /// Represents the timing when the app has finished launching.
+    ///
+    /// - Note: This corresponds to `application(_:didFinishLaunchingWithOptions:)` in UIKit.
+    ///         It's a safe point to perform most app initializations.
+    ///         Automatically triggered by the framework; no need to call `Rhea.trigger(event: .appDidFinishLaunching)`.
+    public static let appDidFinishLaunching: RheaEvent = "appDidFinishLaunching"
+}

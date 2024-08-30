@@ -19,3 +19,16 @@ public typealias RheaFunction = @convention(c) (RheaContext) -> Void
 ///   - isRepeatable: A boolean flag ('true' or 'false') indicating if the function can be called multiple times.
 /// - Example: "rhea.load.5.true"
 public typealias RheaRegisterInfo = (StaticString, RheaFunction)
+
+
+/// Represents a task to be executed by the Rhea framework.
+internal struct RheaTask {
+    /// The name of the task, typically corresponding to a specific event.
+    let name: String
+    /// The priority of the task. Higher priority tasks are executed first.
+    let priority: Int
+    /// Indicates whether the task can be executed multiple times.
+    let repeatable: Bool
+    /// The function to be executed when the task is triggered.
+    let function: @convention(c) (RheaContext) -> Void
+}
