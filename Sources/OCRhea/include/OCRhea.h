@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OCRhea : NSObject
-+ (void)keep;
+
 @end
 
 NS_ASSUME_NONNULL_END
