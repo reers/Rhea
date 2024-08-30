@@ -47,12 +47,9 @@ public class Rhea: NSObject {
 
     @objc
     static func rhea_load() {
-        let start = Date()
         registerNotifications()
-        NSLog("~~~~ registerNoti \(Date().timeIntervalSince(start) * 1000)")
         readSectionDatas()
         
-        NSLog("~~~~ \(Date().timeIntervalSince(start) * 1000)")
         callbackForTime(RheaEvent.load.rawValue)
     }
     
@@ -78,7 +75,6 @@ public class Rhea: NSObject {
         } else {
             tasks[time] = repeatableTasks
         }
-        NSLog("~~~~ callback \(time) \(Date().timeIntervalSince(start) * 1000)")
     }
     
     private static func readSectionDatas() {
