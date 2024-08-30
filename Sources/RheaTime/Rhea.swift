@@ -9,13 +9,6 @@ import Foundation
 import UIKit
 import MachO
 
-struct RheaTask {
-    let name: String
-    let priority: Int
-    let repeatable: Bool
-    let function: @convention(c) (RheaContext) -> Void
-}
-
 @objc
 public class Rhea: NSObject {
     
@@ -48,9 +41,9 @@ public class Rhea: NSObject {
         callbackForTime(event.rawValue, context: context)
     }
     
-    static var tasks: [String: [RheaTask]] = [:]
-    static let segmentName = "__DATA"
-    static let sectionName = "__rheatime"
+    private static var tasks: [String: [RheaTask]] = [:]
+    private static let segmentName = "__DATA"
+    private static let sectionName = "__rheatime"
 
     @objc
     static func rhea_load() {
@@ -60,12 +53,12 @@ public class Rhea: NSObject {
         readSectionDatas()
         
         NSLog("~~~~ \(Date().timeIntervalSince(start) * 1000)")
-        callbackForTime("load")
+        callbackForTime(RheaEvent.load.rawValue)
     }
     
     @objc
     static func rhea_premain() {
-        callbackForTime("premain")
+        callbackForTime(RheaEvent.premain.rawValue)
     }
     
     private static func callbackForTime(_ time: String, context: RheaContext = .init()) {
@@ -110,18 +103,11 @@ public class Rhea: NSObject {
             let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
 
             let context = RheaContext(launchOptions: launchOptions)
-            callbackForTime("appDidFinishLaunching", context: context)
+            callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
         }
     }
     
-    static func sortTasksByPriority() {
-        for (event, taskArray) in tasks {
-            let sortedTasks = taskArray.sorted { $0.priority > $1.priority }
-            tasks[event] = sortedTasks
-        }
-    }
-    
-    static func readSectionData(
+    private static func readSectionData(
         header: UnsafePointer<mach_header>,
         segmentName: String,
         sectionName: String,
@@ -167,7 +153,7 @@ public class Rhea: NSObject {
         }
     }
     
-    static func readRegisterInfo(from sectionStart: UnsafeRawPointer, sectionSize: Int) {
+    private static func readRegisterInfo(from sectionStart: UnsafeRawPointer, sectionSize: Int) {
         guard sectionSize > 0 else { return }
         
         let typeSize = MemoryLayout<RheaRegisterInfo>.size
