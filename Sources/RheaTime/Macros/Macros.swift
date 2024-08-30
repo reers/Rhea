@@ -5,7 +5,6 @@
 //  Created by phoenix on 2024/8/21.
 //
 
-
 /// Registers a callback function for a specific Rhea event.
 ///
 /// This macro is used to register a callback function to a section in the binary,
