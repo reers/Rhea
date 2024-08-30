@@ -9,6 +9,46 @@ import Foundation
 import UIKit
 import MachO
 
+/// Rhea: A dynamic event-driven framework for iOS application lifecycle management and app-wide decoupling.
+///
+/// The Rhea framework provides a flexible and efficient way to manage the execution of code
+/// at specific points in an iOS application's lifecycle and for custom events. It allows developers
+/// to register callbacks for predefined lifecycle events or custom events, with fine-grained control
+/// over execution priority and repeatability. This approach significantly helps in decoupling
+/// different parts of the application, promoting a more modular and maintainable codebase.
+///
+/// Key features:
+/// - Custom event registration: Define and trigger custom events in your application.
+/// - Lifecycle event hooks: Easily attach callbacks to iOS app lifecycle events.
+/// - Priority-based execution: Control the order of callback execution with customizable priorities.
+/// - One-time or repeatable callbacks: Choose whether callbacks should execute once or multiple times.
+/// - Macro-based registration: Use the `#rhea` macro for clean and concise callback registration.
+/// - External event triggering: Trigger events programmatically from anywhere in your app.
+/// - App-wide decoupling: Facilitate better separation of concerns and reduce dependencies between modules.
+///
+/// Rhea is designed to improve code organization, reduce coupling between components,
+/// and provide a more declarative approach to handling app lifecycle and custom events.
+///
+/// Usage examples:
+/// ```swift
+/// // Registering a callback for a predefined lifecycle event
+/// #rhea(time: .premain, func: { _ in
+///     print("~~~~ premain")
+/// })
+///
+/// // Defining a custom event
+/// extension RheaEvent {
+///     static let customEvent: RheaEvent = "customEvent"
+/// }
+///
+/// // Registering a callback for a custom event
+/// #rhea(time: .customEvent, priority: .normal, repeatable: true, func: { context in
+///     // Code to run when user triggered "customEvent": `Rhea.trigger(event: .customEvent)`
+/// })
+/// ```
+///
+/// The `Rhea` class serves as the central point for event management and framework functionality,
+/// enabling effective decoupling and modular design across the entire application.
 @objc
 public class Rhea: NSObject {
     
