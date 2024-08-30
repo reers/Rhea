@@ -10,4 +10,3 @@ public typealias RheaFunction = @convention(c) (RheaContext) -> Void
 /// The `StaticString` is like `"rhea.load.5.true"`, that means `"$prefix.$rheaTimeName.$priority.$isRepeatable"`
 public typealias RheaRegisterInfo = (StaticString, RheaFunction)
 
-

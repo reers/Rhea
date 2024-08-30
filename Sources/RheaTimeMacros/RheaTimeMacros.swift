@@ -28,7 +28,6 @@ public struct WriteSectionMacro: DeclarationMacro {
                 if let memberAccess = argument.expression.as(MemberAccessExprSyntax.self) {
                     time = memberAccess.declName.baseName.text
                 }
-                
                 // String type
                 if let stringLiteral = argument.expression.as(StringLiteralExprSyntax.self),
                    let hostValue = stringLiteral.segments.first?.as(StringSegmentSyntax.self)?.content.text {
@@ -42,7 +41,7 @@ public struct WriteSectionMacro: DeclarationMacro {
                 if let boolLiteral = argument.expression.as(BooleanLiteralExprSyntax.self) {
                     repeatable = boolLiteral.literal.text
                 }
-            case "function":
+            case "func":
                 if let closureExpr = argument.expression.as(ClosureExprSyntax.self) {
                     functionBody = closureExpr.statements.description.trimmingCharacters(in: .whitespacesAndNewlines)
                     if let sig = closureExpr.signature {
