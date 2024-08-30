@@ -3,12 +3,7 @@ import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacros
 
-public enum MacroExpansionError: Error {
-    case invalidArguments
-    case test(String)
-}
-
-public struct WriteSectionMacro: DeclarationMacro {
+public struct WriteTimeToSectionMacro: DeclarationMacro {
     
     public static func expansion(
         of node: some SwiftSyntax.FreestandingMacroExpansionSyntax,
@@ -73,6 +68,6 @@ public struct WriteSectionMacro: DeclarationMacro {
 @main
 struct RheaTimePlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
-        WriteSectionMacro.self
+        WriteTimeToSectionMacro.self
     ]
 }

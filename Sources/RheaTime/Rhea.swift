@@ -18,14 +18,45 @@ struct RheaTask {
 
 @objc
 public class Rhea: NSObject {
+    
+    /// Triggers a specific Rhea event and executes all registered callbacks for that event.
+    ///
+    /// This method activates all callbacks registered for the given event, passing them
+    /// a context that includes any provided parameter.
+    ///
+    /// - Parameters:
+    ///   - event: The `RheaEvent` to trigger. This identifies which set of callbacks should be executed.
+    ///   - param: An optional parameter of type `Any?` that will be passed to the callbacks via the `RheaContext`.
+    ///            This can be used to provide additional data to the callbacks. Defaults to `nil`.
+    ///
+    /// - Note:
+    ///   - The method creates a new `RheaContext` for each trigger call.
+    ///   - If a parameter is provided, it will be accessible in the callbacks through `context.param`.
+    ///   - The `launchOptions` in the `RheaContext` will be `nil` for triggered events.
+    ///   - Callbacks are executed in the order determined by their priority set during registration.
+    ///
+    /// - Important:
+    ///   - Ensure that callbacks are prepared to handle a potentially `nil` parameter.
+    ///   - Be mindful of the performance impact when triggering events with many registered callbacks.
+    ///   - In callbacks, consider performance implications. For time-consuming operations,
+    ///     use asynchronous processing or dispatch to background queues when appropriate.
+    ///   - Avoid blocking the main thread in callbacks, especially for UI-related events.
+    ///
+    public static func trigger(event: RheaEvent, param: Any? = nil) {
+        let context = RheaContext()
+        context.param = param
+        callbackForTime(event.rawValue, context: context)
+    }
+    
     static var tasks: [String: [RheaTask]] = [:]
     static let segmentName = "__DATA"
     static let sectionName = "__rheatime"
 
     @objc
-    public static func rhea_load() {
+    static func rhea_load() {
         let start = Date()
         registerNotifications()
+        NSLog("~~~~ registerNoti \(Date().timeIntervalSince(start) * 1000)")
         readSectionDatas()
         
         NSLog("~~~~ \(Date().timeIntervalSince(start) * 1000)")
@@ -33,14 +64,8 @@ public class Rhea: NSObject {
     }
     
     @objc
-    public static func rhea_premain() {
+    static func rhea_premain() {
         callbackForTime("premain")
-    }
-
-    public static func trigger(event: RheaEvent, param: Any? = nil) {
-        let context = RheaContext()
-        context.param = param
-        callbackForTime(event.rawValue, context: context)
     }
     
     private static func callbackForTime(_ time: String, context: RheaContext = .init()) {
@@ -89,7 +114,6 @@ public class Rhea: NSObject {
         }
     }
     
-    
     static func sortTasksByPriority() {
         for (event, taskArray) in tasks {
             let sortedTasks = taskArray.sorted { $0.priority > $1.priority }
@@ -134,42 +158,45 @@ public class Rhea: NSObject {
                             }
                             let sectionStart = slide + sectionPointer
                             
-                            var count = 0
-                            let typeSize = MemoryLayout<RheaRegisterInfo>.size
-                            let typeStride = MemoryLayout<RheaRegisterInfo>.stride
-                            if sectionSize == typeSize {
-                                count = 1
-                            } else {
-                                count = 1 + (sectionSize - typeSize) / typeStride
-                            }
-                            
-                            if sectionSize > 0 {
-                                let registerInfoPtr = sectionStart.bindMemory(to: RheaRegisterInfo.self, capacity: count)
-                                let buffer = UnsafeBufferPointer(start: registerInfoPtr, count: count)
-                                
-                                for info in buffer {
-                                    let string = info.0
-                                    let function = info.1
-                                    
-                                    let parts = string.description.components(separatedBy: ".")
-                                    if parts.count == 4 {
-                                        let timeName = parts[1]
-                                        let priority = Int(parts[2]) ?? 5
-                                        let repeatable = Bool(parts[3]) ?? false
-                                        let task = RheaTask(name: timeName, priority: priority, repeatable: repeatable, function: function)
-                                        var existingTasks = tasks[timeName] ?? []
-                                        existingTasks.append(task)
-                                        tasks[timeName] = existingTasks
-                                    } else {
-                                        assert(false, "Register info string should have 4 parts")
-                                    }
-                                }
-                            }
+                            readRegisterInfo(from: sectionStart, sectionSize: sectionSize)
                         }
                     }
                 }
             }
             cursor = cursor.advanced(by: Int(segmentCmd.pointee.cmdsize) - MemoryLayout<segment_command_64>.size)
+        }
+    }
+    
+    static func readRegisterInfo(from sectionStart: UnsafeRawPointer, sectionSize: Int) {
+        guard sectionSize > 0 else { return }
+        
+        let typeSize = MemoryLayout<RheaRegisterInfo>.size
+        let typeStride = MemoryLayout<RheaRegisterInfo>.stride
+        let count =
+            if sectionSize == typeSize { 1 }
+            else {
+                1 + (sectionSize - typeSize) / typeStride
+            }
+        
+        let registerInfoPtr = sectionStart.bindMemory(to: RheaRegisterInfo.self, capacity: count)
+        let buffer = UnsafeBufferPointer(start: registerInfoPtr, count: count)
+        
+        for info in buffer {
+            let string = info.0
+            let function = info.1
+            
+            let parts = string.description.components(separatedBy: ".")
+            if parts.count == 4 {
+                let timeName = parts[1]
+                let priority = Int(parts[2]) ?? 5
+                let repeatable = Bool(parts[3]) ?? false
+                let task = RheaTask(name: timeName, priority: priority, repeatable: repeatable, function: function)
+                var existingTasks = tasks[timeName] ?? []
+                existingTasks.append(task)
+                tasks[timeName] = existingTasks
+            } else {
+                assert(false, "Register info string should have 4 parts")
+            }
         }
     }
 }
