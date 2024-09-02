@@ -1,6 +1,0 @@
-framework module RheaTime {
-  umbrella header "RheaTime-umbrella.h"
-
-  export *
-  module * { export * }
-}
