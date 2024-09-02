@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RheaTime'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'iOS App Time Dispatcher.'
 
   s.description      = <<-DESC
@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.author           = { 'Asura19' => 'x.rhythm@qq.com' }
   s.source           = { :git => 'https://github.com/reers/Rhea.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '13.0'
   s.swift_versions = '5.10'
 
   s.source_files = 'Sources/**/*'
