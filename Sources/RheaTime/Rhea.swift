@@ -6,8 +6,10 @@
 //
 
 import Foundation
-import UIKit
 import MachO
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// Rhea: A dynamic event-driven framework for iOS application lifecycle management and app-wide decoupling.
 ///
@@ -99,7 +101,6 @@ public class Rhea: NSObject {
     }
     
     private static func callbackForTime(_ time: String, context: RheaContext = .init()) {
-        let start = Date()
         guard let rheaTasks = tasks[time] else { return }
         var repeatableTasks: [RheaTask] = []
         rheaTasks
@@ -130,17 +131,19 @@ public class Rhea: NSObject {
     }
 
     private static func registerNotifications() {
-       NotificationCenter.default.addObserver(
+        #if canImport(UIKit)
+        NotificationCenter.default.addObserver(
             forName: UIApplication.didFinishLaunchingNotification,
             object: nil,
             queue: .main
         ) { notification in
             let application = notification.object as? UIApplication ?? UIApplication.shared
             let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
-
+            
             let context = RheaContext(launchOptions: launchOptions)
             callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
         }
+        #endif
     }
     
     private static func readSectionData(
