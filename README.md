@@ -12,7 +12,7 @@ iOS 13 +
 
 Swift 5.10
 
-swift-syntax
+swift-syntax 6.0.0
 
 ## 基本使用
 ```swift
