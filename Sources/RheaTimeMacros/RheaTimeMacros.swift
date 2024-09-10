@@ -9,7 +9,7 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
         of node: some SwiftSyntax.FreestandingMacroExpansionSyntax,
         in context: some SwiftSyntaxMacros.MacroExpansionContext
     ) throws -> [DeclSyntax] {
-        let argumentList = node.argumentList
+        let argumentList = node.arguments
         var time: String = ""
         var priority: String = "5"
         var repeatable: String = "false"
@@ -30,7 +30,7 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
                 }
             case "priority":
                 if let intLiteral = argument.expression.as(IntegerLiteralExprSyntax.self) {
-                    priority = intLiteral.digits.text
+                    priority = intLiteral.literal.text
                 } else if let memberAccess = argument.expression.as(MemberAccessExprSyntax.self) {
                     let memberName = memberAccess.declName.baseName.text
                     switch memberName {
