@@ -83,6 +83,12 @@ public class Rhea: NSObject {
         callbackForTime(event.rawValue, context: context)
     }
     
+    private static let lock: os_unfair_lock_t = {
+        let lock = os_unfair_lock_t.allocate(capacity: 1)
+        lock.initialize(to: os_unfair_lock())
+        return lock
+    }()
+    
     private static var tasks: [String: [RheaTask]] = [:]
     private static let segmentName = "__DATA"
     private static let sectionName = "__rheatime"
@@ -101,7 +107,13 @@ public class Rhea: NSObject {
     }
     
     private static func callbackForTime(_ time: String, context: RheaContext = .init()) {
-        guard let rheaTasks = tasks[time] else { return }
+        os_unfair_lock_lock(lock)
+        guard let rheaTasks = tasks[time] else {
+            os_unfair_lock_unlock(lock)
+            return
+        }
+        os_unfair_lock_unlock(lock)
+        
         var repeatableTasks: [RheaTask] = []
         rheaTasks
             .sorted { $0.priority > $1.priority }
@@ -111,11 +123,14 @@ public class Rhea: NSObject {
                     repeatableTasks.append($0)
                 }
             }
+        
+        os_unfair_lock_lock(lock)
         if repeatableTasks.isEmpty {
             tasks[time] = nil
         } else {
             tasks[time] = repeatableTasks
         }
+        os_unfair_lock_unlock(lock)
     }
     
     private static func readSectionDatas() {
@@ -137,7 +152,6 @@ public class Rhea: NSObject {
             object: nil,
             queue: .main
         ) { notification in
-            let application = notification.object as? UIApplication ?? UIApplication.shared
             let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
             
             let context = RheaContext(launchOptions: launchOptions)
@@ -206,6 +220,7 @@ public class Rhea: NSObject {
         let registerInfoPtr = sectionStart.bindMemory(to: RheaRegisterInfo.self, capacity: count)
         let buffer = UnsafeBufferPointer(start: registerInfoPtr, count: count)
         
+        os_unfair_lock_lock(lock)
         for info in buffer {
             let string = info.0
             let function = info.1
@@ -223,5 +238,6 @@ public class Rhea: NSObject {
                 assert(false, "Register info string should have 4 parts")
             }
         }
+        os_unfair_lock_unlock(lock)
     }
 }
