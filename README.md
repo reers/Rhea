@@ -12,7 +12,7 @@ iOS 13 +
 
 Swift 5.10
 
-swift-syntax 6.0.0
+swift-syntax 600.0.0
 
 ## 基本使用
 ```swift
@@ -112,7 +112,7 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.1")
+        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.2")
     ],
     targets: [
         .target(
@@ -175,7 +175,7 @@ import RheaExtension
 ```
 
 ### CocoaPods
-由于 CocoaPods 不支持直接使用 Swift Macro, 可以将宏实现编译为二进制提供使用, 接入方式如下:
+由于 CocoaPods 不支持直接使用 Swift Macro, 可以将宏实现编译为二进制提供使用, 接入方式如下, 需要设置`s.pod_target_xcconfig`来加载宏实现的二进制插件:
 ```swift
 // RheaExtension podspec
 Pod::Spec.new do |s|
@@ -191,7 +191,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/bjwoodman/RheaExtension.git', :tag => s.version.to_s }
   s.ios.deployment_target = '13.0'
   s.source_files = 'RheaExtension/Classes/**/*'
-  s.dependency 'RheaTime', '1.0.1'
+  s.dependency 'RheaTime', '1.0.2'
 end
 ```
 
@@ -210,10 +210,15 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '13.0'
   s.source_files = 'Account/Classes/**/*'
   s.dependency 'RheaExtension'
+  
+  # 复制以下 config 到你的 pod
+  s.pod_target_xcconfig = {
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
+  }
 end
 ```
 
-另外, 因为要加载宏实现的二进制, 需要给每个 pod 添加 other swift flag, 还需要在 podfile 中添加如下脚本:
+或者, 如果不使用`s.pod_target_xcconfig`, 也可以在 podfile 中添加如下脚本统一处理:
 ```ruby
 post_install do |installer|
   installer.pods_project.targets.each do |target|
@@ -221,13 +226,15 @@ post_install do |installer|
     if rhea_dependency
       puts "Adding Rhea Swift flags to target: #{target.name}"
       target.build_configurations.each do |config|
-        config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)']
-        unless config.build_settings['OTHER_SWIFT_FLAGS'].include?('-load-plugin-executable ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros')
-          config.build_settings['OTHER_SWIFT_FLAGS'] << '-load-plugin-executable ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
+        swift_flags = config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)']
+        
+        plugin_flag = '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
+        
+        unless swift_flags.join(' ').include?(plugin_flag)
+          swift_flags.concat(plugin_flag.split)
         end
-        unless config.build_settings['OTHER_SWIFT_FLAGS'].include?('-enable-experimental-feature SymbolLinkageMarkers')
-          config.build_settings['OTHER_SWIFT_FLAGS'] << '-enable-experimental-feature SymbolLinkageMarkers'
-        end
+        
+        config.build_settings['OTHER_SWIFT_FLAGS'] = swift_flags
       end
     end
   end
