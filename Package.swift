@@ -18,7 +18,7 @@ let package = Package(
     ],
     dependencies: [
         // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
-        .package(url: "https://github.com/apple/swift-syntax.git", from: "600.0.0-prerelease-2024-08-14"),
+        .package(url: "https://github.com/apple/swift-syntax.git", from: "600.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -35,10 +35,8 @@ let package = Package(
             name: "RheaTime",
             dependencies: ["OCRhea", "RheaTimeMacros"],
             path: "Sources/RheaTime",
-            exclude: ["Resources/RheaTimeMacros"],
-            swiftSettings: [.enableExperimentalFeature("SymbolLinkageMarkers")]
+            exclude: ["Resources/RheaTimeMacros"]
         ),
-        
         .target(name: "OCRhea"),
     ]
 )
