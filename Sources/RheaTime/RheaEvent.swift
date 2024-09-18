@@ -16,18 +16,7 @@
 /// ```
 /// - Note: ⚠️⚠️⚠️ When extending this struct with static constants, ensure that
 ///   the constant name exactly matches the string literal value. This practice
-///   maintains consistency and prevents confusion. If the constant name is not equals to
-///   the string literal value, you should pass the `rawValue` explicitly when invoking the macro.
-///
-/// ```swift
-/// extension RheaEvent {
-///    public static let homePageDidAppear: RheaEvent = "another_name"
-/// }
-///
-/// #rhea(time: RheaEvent.homePageDidAppear.rawValue, func: { _ in
-///     // ...
-/// })
-/// ```
+///   maintains consistency and prevents confusion.
 ///
 public struct RheaEvent: ExpressibleByStringLiteral, Equatable, Hashable, RawRepresentable {
     public typealias StringLiteralType = String

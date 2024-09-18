@@ -73,6 +73,24 @@ class ViewController: UIViewController {
 /// - Note: When triggering an event externally using `Rhea.trigger(event:param:)`, you can include
 ///              an additional parameter that will be passed to the callback via the `RheaContext`.
 ///
+/// ```
+/// #rhea(time: .load, priority: .veryLow, repeatable: true, func: { _ in
+///     print("~~~~ load in Account Module")
+/// })
+///
+/// #rhea(time: .registerRoute, func: { _ in
+///     print("~~~~ registerRoute in Account Module")
+/// })
+///
+/// // Use a StaticString as event directly
+/// #rhea(time: "ACustomEventString", func: { _ in
+///     print("~~~~ custom event")
+/// })
+/// ```
+/// - Note: ⚠️⚠️⚠️ When extending ``RheaEvent`` with static constants, ensure that
+///   the constant name exactly matches the string literal value. This practice
+///   maintains consistency and prevents confusion.
+///
 @freestanding(declaration)
 public macro rhea(
     time: RheaEvent,
@@ -112,7 +130,7 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.2")
+        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.3")
     ],
     targets: [
         .target(
@@ -174,6 +192,13 @@ import RheaExtension
 })
 ```
 
+另外, 还可以直接传入 `StaticString` 作为 time key.
+```
+#rhea(time: "ACustomEventString", func: { _ in
+    print("~~~~ custom event")
+})
+```
+
 ### CocoaPods
 由于 CocoaPods 不支持直接使用 Swift Macro, 可以将宏实现编译为二进制提供使用, 接入方式如下, 需要设置`s.pod_target_xcconfig`来加载宏实现的二进制插件:
 ```swift
@@ -191,7 +216,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/bjwoodman/RheaExtension.git', :tag => s.version.to_s }
   s.ios.deployment_target = '13.0'
   s.source_files = 'RheaExtension/Classes/**/*'
-  s.dependency 'RheaTime', '1.0.2'
+  s.dependency 'RheaTime', '1.0.3'
 end
 ```
 
