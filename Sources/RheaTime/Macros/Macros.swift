@@ -37,25 +37,14 @@
 ///     print("~~~~ registerRoute in Account Module")
 /// })
 ///
-/// // Use a string as event directly
+/// // Use a StaticString as event directly
 /// #rhea(time: "ACustomEventString", func: { _ in
 ///     print("~~~~ custom event")
 /// })
 /// ```
 /// - Note: ⚠️⚠️⚠️ When extending ``RheaEvent`` with static constants, ensure that
 ///   the constant name exactly matches the string literal value. This practice
-///   maintains consistency and prevents confusion. If the constant name is not equals to
-///   the string literal value, you should pass the `rawValue` explicitly when invoking the macro.
-///
-/// ```
-/// extension RheaEvent {
-///    public static let homePageDidAppear: RheaEvent = "another_name"
-/// }
-///
-/// #rhea(time: RheaEvent.homePageDidAppear.rawValue, func: { _ in
-///     // ...
-/// })
-/// ```
+///   maintains consistency and prevents confusion.
 ///
 @freestanding(declaration)
 public macro rhea(
