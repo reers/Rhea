@@ -34,8 +34,7 @@ let package = Package(
         .target(
             name: "RheaTime",
             dependencies: ["OCRhea", "RheaTimeMacros"],
-            path: "Sources/RheaTime",
-            exclude: ["Resources/RheaTimeMacros"]
+            path: "Sources/RheaTime"
         ),
         .target(name: "OCRhea"),
     ]
