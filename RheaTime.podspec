@@ -27,14 +27,12 @@ Pod::Spec.new do |s|
   s.preserve_paths = ["Sources/Resources/RheaTimeMacros"]
   s.exclude_files = 'Sources/RheaTimeMacros'
   
-  # Add other swift flags
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-load-plugin-executable ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros -enable-experimental-feature SymbolLinkageMarkers'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
   }
   
-  # Optionally, if you want to apply this to the user target as well
   s.user_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-load-plugin-executable ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros -enable-experimental-feature SymbolLinkageMarkers'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
   }
 
 end
