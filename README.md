@@ -44,10 +44,11 @@ class ViewController: UIViewController {
 ```
 框架内提供了三个回调时机, 分别是
 1. OC + load
-2. premain
+2. constructor (premain)
 3. appDidFinishLaunching
 
-另外用户可以自定义时机和触发, 可以配置同时机的执行优先级, 以及是否可以重复执行
+另外用户可以自定义时机和触发, 可以配置同时机的执行优先级, 以及是否可以重复执行.
+⚠️⚠️⚠️ 但需要注意的是, 自定义时机的变量名要和其 rawValue 的 String 完全相同, 否则 Swift Macro 无法正确处理 
 
 ```swift
 /// Registers a callback function for a specific Rhea event.
@@ -109,6 +110,7 @@ public macro rhea(
 extension RheaEvent {
     public static let homePageDidAppear: RheaEvent = "homePageDidAppear"
     public static let registerRoute: RheaEvent = "registerRoute"
+    public static let didEnterBackground: RheaEvent = "didEnterBackground"
 }
 ```
 所以推荐的方式是, 将本框架再封装一层, 如命名为 RheaExtension
@@ -118,6 +120,25 @@ extension RheaEvent {
 RheaExtension
      ↓
   RheaTime
+```
+
+另外, RheaExtension 中除了可以自定义事件名, 还可以封装一些时机事件的业务逻辑
+```
+#rhea(time: .appDidFinishLaunching, func: { _ in
+    NotificationCenter.default.addObserver(
+        forName: UIApplication.didEnterBackgroundNotification,
+        object: nil,
+        queue: .main
+    ) { _ in
+        Rhea.trigger(event: .didEnterBackground)
+    }
+})
+```
+外部使用
+```
+#rhea(time: .didEnterBackground, repeatable: true, func: { _ in
+    print("~~~~ app did enter background")
+})
 ```
 
 ### Swift Package Manager
@@ -149,6 +170,7 @@ let package = Package(
 extension RheaEvent {
     public static let homePageDidAppear: RheaEvent = "homePageDidAppear"
     public static let registerRoute: RheaEvent = "registerRoute"
+    public static let didEnterBackground: RheaEvent = "didEnterBackground"
 }
 ```
 
