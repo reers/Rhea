@@ -12,12 +12,14 @@
 public typealias RheaFunction = @convention(c) (RheaContext) -> Void
 
 /// Represents the registration information for a Rhea function.
-/// - Note: The `StaticString` follows the format: "prefix.rheaTimeName.priority.isRepeatable"
+/// - Note: The `StaticString` follows the format:
+///  "prefix.rheaTimeName.priority.isRepeatable.isAsync"
 ///   - prefix: The namespace or module identifier.
 ///   - rheaTimeName: The specific timing or event name.
 ///   - priority: An integer indicating the execution priority.
 ///   - isRepeatable: A boolean flag ('true' or 'false') indicating if the function can be called multiple times.
-/// - Example: "rhea.load.5.true"
+///   - isAsync: A boolean flag ('true' or 'false') indicating if the function can be called asynchronously.
+/// - Example: "rhea.load.5.true.false"
 public typealias RheaRegisterInfo = (StaticString, RheaFunction)
 
 
@@ -29,6 +31,8 @@ internal struct RheaTask {
     let priority: Int
     /// Indicates whether the task can be executed multiple times.
     let repeatable: Bool
+    /// Indicates whether the task can be executed asynchronously.
+    let isAsync: Bool
     /// The function to be executed when the task is triggered.
     let function: @convention(c) (RheaContext) -> Void
 }

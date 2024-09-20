@@ -118,7 +118,7 @@ public class Rhea: NSObject {
         rheaTasks
             .sorted { $0.priority > $1.priority }
             .forEach {
-                $0.function(context)
+                dispatchTask($0, context: context)
                 if $0.repeatable {
                     repeatableTasks.append($0)
                 }
@@ -230,7 +230,8 @@ public class Rhea: NSObject {
                 let timeName = parts[1]
                 let priority = Int(parts[2]) ?? 5
                 let repeatable = Bool(parts[3]) ?? false
-                let task = RheaTask(name: timeName, priority: priority, repeatable: repeatable, function: function)
+                let isAsync = Bool(parts[3]) ?? false
+                let task = RheaTask(name: timeName, priority: priority, repeatable: repeatable, isAsync: isAsync, function: function)
                 var existingTasks = tasks[timeName] ?? []
                 existingTasks.append(task)
                 tasks[timeName] = existingTasks
@@ -240,4 +241,59 @@ public class Rhea: NSObject {
         }
         os_unfair_lock_unlock(lock)
     }
+}
+
+// MARK: - Dispatch task
+
+extension Rhea {
+    private static let veryHighPriorityQueue = DispatchQueue(
+        label: "com.rhea.veryHighPriorityQueue",
+        qos: .userInteractive,
+        attributes: .concurrent
+    )
+    private static let highPriorityQueue = DispatchQueue(
+        label: "com.rhea.highPriorityQueue",
+        qos: .userInitiated,
+        attributes: .concurrent
+    )
+    private static let defaultPriorityQueue = DispatchQueue(
+        label: "com.rhea.mediumPriorityQueue",
+        qos: .default,
+        attributes: .concurrent
+    )
+    private static let lowPriorityQueue = DispatchQueue(
+        label: "com.rhea.lowPriorityQueue",
+        qos: .utility,
+        attributes: .concurrent
+    )
+    private static let veryLowPriorityQueue = DispatchQueue(
+        label: "com.rhea.veryLowPriorityQueue",
+        qos: .background,
+        attributes: .concurrent
+    )
+    
+    private static func dispatchTask(_ task: RheaTask, context: RheaContext) {
+        if task.isAsync {
+            let queue: DispatchQueue
+            switch task.priority {
+            case RheaPriority.veryHigh.rawValue...:
+                queue = veryHighPriorityQueue
+            case RheaPriority.high.rawValue..<RheaPriority.veryHigh.rawValue:
+                queue = highPriorityQueue
+            case RheaPriority.veryLow.rawValue..<RheaPriority.low.rawValue:
+                queue = lowPriorityQueue
+            case ..<RheaPriority.veryLow.rawValue:
+                queue = veryLowPriorityQueue
+            default:
+                queue = defaultPriorityQueue
+            }
+            
+            queue.async {
+                task.function(context)
+            }
+        } else {
+            task.function(context)
+        }
+    }
+
 }

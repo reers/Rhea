@@ -13,6 +13,7 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
         var time: String = ""
         var priority: String = "5"
         var repeatable: String = "false"
+        var async: String = "false"
         var functionBody: String = ""
         var signature: String?
         
@@ -45,6 +46,10 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
                 if let boolLiteral = argument.expression.as(BooleanLiteralExprSyntax.self) {
                     repeatable = boolLiteral.literal.text
                 }
+            case "async":
+                if let boolLiteral = argument.expression.as(BooleanLiteralExprSyntax.self) {
+                    async = boolLiteral.literal.text
+                }
             case "func":
                 if let closureExpr = argument.expression.as(ClosureExprSyntax.self) {
                     functionBody = closureExpr.statements.description.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -64,7 +69,7 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
             @_used 
             @_section("__DATA,__rheatime")
             \(staticString)let \(infoName): RheaRegisterInfo = (
-                "rhea.\(time).\(priority).\(repeatable)",
+                "rhea.\(time).\(priority).\(repeatable).\(async)",
                 { \(signature ?? "context in")
                     \(functionBody)
                 }
