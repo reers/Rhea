@@ -295,5 +295,4 @@ extension Rhea {
             task.function(context)
         }
     }
-
 }
