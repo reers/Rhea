@@ -257,7 +257,7 @@ extension Rhea {
         attributes: .concurrent
     )
     private static let defaultPriorityQueue = DispatchQueue(
-        label: "com.rhea.mediumPriorityQueue",
+        label: "com.rhea.defaultPriorityQueue",
         qos: .default,
         attributes: .concurrent
     )
