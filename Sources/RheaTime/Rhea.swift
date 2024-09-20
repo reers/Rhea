@@ -226,7 +226,7 @@ public class Rhea: NSObject {
             let function = info.1
             
             let parts = string.description.components(separatedBy: ".")
-            if parts.count == 4 {
+            if parts.count == 5 {
                 let timeName = parts[1]
                 let priority = Int(parts[2]) ?? 5
                 let repeatable = Bool(parts[3]) ?? false
@@ -236,7 +236,7 @@ public class Rhea: NSObject {
                 existingTasks.append(task)
                 tasks[timeName] = existingTasks
             } else {
-                assert(false, "Register info string should have 4 parts")
+                assert(false, "Register info string should have 5 parts")
             }
         }
         os_unfair_lock_unlock(lock)
