@@ -230,7 +230,7 @@ public class Rhea: NSObject {
                 let timeName = parts[1]
                 let priority = Int(parts[2]) ?? 5
                 let repeatable = Bool(parts[3]) ?? false
-                let isAsync = Bool(parts[3]) ?? false
+                let isAsync = Bool(parts[4]) ?? false
                 let task = RheaTask(name: timeName, priority: priority, repeatable: repeatable, isAsync: isAsync, function: function)
                 var existingTasks = tasks[timeName] ?? []
                 existingTasks.append(task)
