@@ -175,7 +175,7 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.3")
+        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.5")
     ],
     targets: [
         .target(
@@ -262,7 +262,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/bjwoodman/RheaExtension.git', :tag => s.version.to_s }
   s.ios.deployment_target = '13.0'
   s.source_files = 'RheaExtension/Classes/**/*'
-  s.dependency 'RheaTime', '1.0.3'
+  s.dependency 'RheaTime', '1.0.5'
 end
 ```
 
