@@ -83,13 +83,13 @@ public class Rhea: NSObject {
         callbackForTime(event.rawValue, context: context)
     }
     
-    private static let lock: os_unfair_lock_t = {
+    nonisolated(unsafe) private static let lock: os_unfair_lock_t = {
         let lock = os_unfair_lock_t.allocate(capacity: 1)
         lock.initialize(to: os_unfair_lock())
         return lock
     }()
     
-    private static var tasks: [String: [RheaTask]] = [:]
+    nonisolated(unsafe) private static var tasks: [String: [RheaTask]] = [:]
     private static let segmentName = "__DATA"
     private static let sectionName = "__rheatime"
 

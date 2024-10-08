@@ -13,7 +13,7 @@ import UIKit
 /// Represents the context for function callbacks in the Rhea framework.
 /// This class encapsulates information relevant to the application's launch
 /// and any additional parameters passed during callback execution.
-public class RheaContext: NSObject {
+public class RheaContext: NSObject, @unchecked Sendable {
     #if canImport(UIKit)
     /// The launch options dictionary passed to the application upon its initialization.
     /// This property is set internally and can only be read externally.

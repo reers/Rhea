@@ -11,7 +11,7 @@ import Foundation
 ///
 /// This struct allows for both predefined priority levels and custom integer-based priorities.
 /// It conforms to ExpressibleByIntegerLiteral, allowing direct use of integer values for priorities.
-public struct RheaPriority: ExpressibleByIntegerLiteral, Equatable, Hashable, RawRepresentable {
+public struct RheaPriority: ExpressibleByIntegerLiteral, Equatable, Hashable, RawRepresentable, Sendable {
     public typealias IntegerLiteral = Int
     public init(integerLiteral value: Int) {
         self.rawValue = value

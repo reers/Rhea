@@ -18,7 +18,7 @@
 ///   the constant name exactly matches the string literal value. This practice
 ///   maintains consistency and prevents confusion.
 ///
-public struct RheaEvent: ExpressibleByStringLiteral, Equatable, Hashable, RawRepresentable {
+public struct RheaEvent: ExpressibleByStringLiteral, Equatable, Hashable, RawRepresentable, Sendable {
     public typealias StringLiteralType = String
     public init(stringLiteral value: String) {
         self.rawValue = value
