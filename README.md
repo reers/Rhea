@@ -7,9 +7,9 @@ Swift 5.10 之后, 支持了`@_used` `@_section` 可以将数据写入 section, 
 🟡 目前这个能力还是 Swift 的实验 Feature, 需要通过配置项开启, 详见接入文档.
 
 ## 要求
-XCode 16.1 +
+XCode 16.0 +
 
-iOS 13 +
+iOS 13.0+  macOS 10.15+
 
 Swift 5.10
 
@@ -177,7 +177,7 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.7")
+        .package(url: "https://github.com/reers/Rhea.git", from: "1.0.8")
     ],
     targets: [
         .target(
@@ -274,7 +274,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '13.0'
   s.source_files = 'RheaExtension/Classes/**/*'
 
-  s.dependency 'RheaTime', '1.0.7'
+  s.dependency 'RheaTime', '1.0.8'
 
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
