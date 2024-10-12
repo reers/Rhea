@@ -237,6 +237,7 @@ import RheaExtension
 
 在主App Target中 Build Settings设置开启实验feature:
 -enable-experimental-feature SymbolLinkageMarkers
+![CleanShot 2024-10-12 at 20 39 59@2x](https://github.com/user-attachments/assets/92a382aa-b8b7-4b49-8a8f-c8587caaf2f1)
 
 
 ```swift
@@ -272,10 +273,8 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/bjwoodman/RheaExtension.git', :tag => s.version.to_s }
   s.ios.deployment_target = '13.0'
   s.source_files = 'RheaExtension/Classes/**/*'
-<<<<<<< HEAD
+
   s.dependency 'RheaTime', '1.0.6'
-=======
-  s.dependency 'RheaTime', '1.0.5'
 
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
@@ -284,7 +283,6 @@ TODO: Add long description of the pod here.
   s.user_target_xcconfig = {
     'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
   }
->>>>>>> fix/enable_exp_feature
 end
 ```
 
