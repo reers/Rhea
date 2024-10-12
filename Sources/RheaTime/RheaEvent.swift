@@ -57,7 +57,8 @@ extension RheaEvent {
     
     /// Represents the timing when the app has finished launching.
     ///
-    /// - Note: This corresponds to `application(_:didFinishLaunchingWithOptions:)` in UIKit.
+    /// - Note: This corresponds to `application(_:didFinishLaunchingWithOptions:)` in UIKit,
+    ///         and `applicationDidFinishLaunching(_:)` in AppKit.
     ///         It's a safe point to perform most app initializations.
     ///         Automatically triggered by the framework; no need to call `Rhea.trigger(event: .appDidFinishLaunching)`.
     public static let appDidFinishLaunching: RheaEvent = "appDidFinishLaunching"

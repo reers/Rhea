@@ -11,6 +11,10 @@ import MachO
 import UIKit
 #endif
 
+#if canImport(AppKit)
+import AppKit
+#endif
+
 /// Rhea: A dynamic event-driven framework for iOS application lifecycle management and app-wide decoupling.
 ///
 /// The Rhea framework provides a flexible and efficient way to manage the execution of code
@@ -155,6 +159,18 @@ public class Rhea: NSObject {
             let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
             
             let context = RheaContext(launchOptions: launchOptions)
+            callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
+        }
+        #endif
+        
+        #if canImport(AppKit)
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.didFinishLaunchingNotification,
+            object: nil,
+            queue: .main
+        ) { notification in
+            let userInfo = notification.userInfo
+            let context = RheaContext(param: userInfo)
             callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
         }
         #endif
