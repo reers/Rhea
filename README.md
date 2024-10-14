@@ -9,7 +9,7 @@ Swift 5.10 之后, 支持了`@_used` `@_section` 可以将数据写入 section, 
 ## 要求
 XCode 16.0 +
 
-iOS 13.0+  macOS 10.15+
+iOS 13.0+, macOS 10.15+, tvOS 13.0+, visionOS 1.0+, watchOS 7.0+
 
 Swift 5.10
 
@@ -47,7 +47,7 @@ class ViewController: UIViewController {
 框架内提供了三个回调时机, 分别是
 1. OC + load
 2. constructor (premain)
-3. appDidFinishLaunching
+3. appDidFinishLaunching ()
 
 另外用户可以自定义时机和触发, 可以配置同时机的执行优先级, 以及是否可以重复执行.
 ⚠️⚠️⚠️ 但需要注意的是, 自定义时机的变量名要和其 rawValue 的 String 完全相同, 否则 Swift Macro 无法正确处理 
