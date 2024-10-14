@@ -6,7 +6,7 @@
 //
 
 import Foundation
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
 import UIKit
 #endif
 
@@ -14,7 +14,7 @@ import UIKit
 /// This class encapsulates information relevant to the application's launch
 /// and any additional parameters passed during callback execution.
 public class RheaContext: NSObject, @unchecked Sendable {
-    #if canImport(UIKit)
+    #if canImport(UIKit) && !os(watchOS)
     /// The launch options dictionary passed to the application upon its initialization.
     /// This property is set internally and can only be read externally.
     public internal(set) var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
@@ -24,7 +24,7 @@ public class RheaContext: NSObject, @unchecked Sendable {
     /// This property is set internally and can only be read externally.
     public internal(set) var param: Any?
     
-    #if canImport(UIKit)
+    #if canImport(UIKit) && !os(watchOS)
     /// Initializes a new instance of RheaContext.
     /// - Parameters:
     ///   - launchOptions: The launch options dictionary from the application's initialization.

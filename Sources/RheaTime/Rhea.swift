@@ -7,7 +7,7 @@
 
 import Foundation
 import MachO
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
 import UIKit
 #endif
 
@@ -150,7 +150,7 @@ public class Rhea: NSObject {
     }
 
     private static func registerNotifications() {
-        #if canImport(UIKit)
+        #if canImport(UIKit) && !os(watchOS)
         NotificationCenter.default.addObserver(
             forName: UIApplication.didFinishLaunchingNotification,
             object: nil,
