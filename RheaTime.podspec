@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RheaTime'
-  s.version          = '1.0.8'
+  s.version          = '1.1.0'
   s.summary          = 'iOS App Time Dispatcher.'
 
   s.description      = <<-DESC
