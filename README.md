@@ -49,6 +49,8 @@ class ViewController: UIViewController {
 2. constructor (premain)
 3. appDidFinishLaunching ()
 
+这三个时机是由框架内部触发的，外部无需调用 trigger 方法。
+
 另外用户可以自定义时机和触发, 可以配置同时机的执行优先级, 以及是否可以重复执行.
 ⚠️⚠️⚠️ 但需要注意的是, 自定义时机的变量名要和其 rawValue 的 String 完全相同, 否则 Swift Macro 无法正确处理 
 
