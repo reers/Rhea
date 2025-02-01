@@ -1,15 +1,15 @@
-[English Documents](README_EN.md)
+[中文文档](README_CN.md)
 
 # Rhea
 
-一个用于触发各种时机的框架. 灵感来自字节内部的框架 Gaia, 但是以不同的方式实现的.
-在希腊神话中, Rhea 是 Gaia 的女儿, 本框架也因此得名.
+A framework for triggering various timings. Inspired by ByteDance's internal framework Gaia, but implemented in a different way.
+In Greek mythology, Rhea is the daughter of Gaia, hence the name of this framework.
 
-Swift 5.10 之后, 支持了`@_used` `@_section` 可以将数据写入 section, 再结合 Swift Macro, 就可以实现 OC 时代各种解耦和的, 用于注册信息的能力了. 本框架也采用此方式进行了全面重构.
+After Swift 5.10, with the support of `@_used` `@_section` which can write data into sections, combined with Swift Macro, we can now achieve various decoupling and registration capabilities from the OC era. This framework has also been completely refactored using this approach.
 
-🟡 目前这个能力还是 Swift 的实验 Feature, 需要通过配置项开启, 详见接入文档.
+🟡 Currently, this capability is still an experimental Swift Feature and needs to be enabled through configuration settings. See the integration documentation for details.
 
-## 要求
+## Requirements
 XCode 16.0 +
 
 iOS 13.0+, macOS 10.15+, tvOS 13.0+, visionOS 1.0+, watchOS 7.0+
@@ -18,7 +18,7 @@ Swift 5.10
 
 swift-syntax 600.0.0
 
-## 基本使用
+## Basic Usage
 ```swift
 import RheaExtension
 
@@ -47,15 +47,15 @@ class ViewController: UIViewController {
     }
 }
 ```
-框架内提供了三个回调时机, 分别是
+The framework provides three callback timings:
 1. OC + load
 2. constructor (premain)
 3. appDidFinishLaunching ()
 
-这三个时机是由框架内部触发的，外部无需调用 trigger 方法。
+These three timings are triggered internally by the framework, and there's no need for external trigger calls.
 
-另外用户可以自定义时机和触发, 可以配置同时机的执行优先级, 以及是否可以重复执行.
-⚠️⚠️⚠️ 但需要注意的是, 自定义时机的变量名要和其 rawValue 的 String 完全相同, 否则 Swift Macro 无法正确处理 
+Additionally, users can customize timings and triggers, configure execution priorities for the same timing, and whether they can be repeatedly executed.
+⚠️⚠️⚠️ However, note that the variable name of custom timing must exactly match its rawValue String, otherwise Swift Macro cannot process it correctly.
 
 ```swift
 /// Registers a callback function for a specific Rhea event.
@@ -131,11 +131,11 @@ public macro rhea(
 
 ```
 
-## 接入工程
+## Project Integration
 
-### Example工程: https://github.com/Asura19/RheaExample
+### Example Project: https://github.com/Asura19/RheaExample
 
-因为业务要自定义事件, 如下:
+Since business needs to customize events, like this:
 ```swift
 extension RheaEvent {
     public static let homePageDidAppear: RheaEvent = "homePageDidAppear"
@@ -143,16 +143,16 @@ extension RheaEvent {
     public static let didEnterBackground: RheaEvent = "didEnterBackground"
 }
 ```
-所以推荐的方式是, 将本框架再封装一层, 如命名为 RheaExtension
+The recommended approach is to wrap this framework in another layer, named RheaExtension for example
 ```
-业务A    业务B
-  ↓       ↓
+BusinessA    BusinessB
+    ↓           ↓
 RheaExtension
      ↓
   RheaTime
 ```
 
-另外, RheaExtension 中除了可以自定义事件名, 还可以封装一些时机事件的业务逻辑
+Additionally, RheaExtension can not only customize event names but also encapsulate business logic for timing events
 ```
 #rhea(time: .appDidFinishLaunching, func: { _ in
     NotificationCenter.default.addObserver(
@@ -164,7 +164,7 @@ RheaExtension
     }
 })
 ```
-外部使用
+External usage
 ```
 #rhea(time: .didEnterBackground, repeatable: true, func: { _ in
     print("~~~~ app did enter background")
@@ -172,7 +172,7 @@ RheaExtension
 ```
 
 ### Swift Package Manager
-在依赖的Package中通过 `swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]` 开启实验feature
+Enable experimental feature through `swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]` in the dependent Package
 ```swift
 // Package.swift
 let package = Package(
@@ -190,14 +190,14 @@ let package = Package(
             dependencies: [
                 .product(name: "RheaTime", package: "Rhea")
             ],
-            // 此处添加开启实验 feature
+            // Add experimental feature enable here
             swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]
         ),
     ]
 )
 
 // RheaExtension.swift
-// @_exported 导出后, 其他业务 module 以及主 target 就只需 import RheaExtension 了
+// After @_exported, other business modules and main target only need to import RheaExtension
 @_exported import RheaTime
 
 extension RheaEvent {
@@ -208,7 +208,7 @@ extension RheaEvent {
 ```
 
 ```swift
-// 业务 Module Account
+// Business Module Account
 // Package.swift
 let package = Package(
     name: "Account",
@@ -227,12 +227,12 @@ let package = Package(
             dependencies: [
                 .product(name: "RheaExtension", package: "RheaExtension")
             ],
-            // 此处添加开启实验 feature
+            // Add experimental feature enable here
             swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]
         ),
     ]
 )
-// 业务 Module Account 使用
+// Business Module Account usage
 import RheaExtension
 
 #rhea(time: .homePageDidAppear, func: { context in
@@ -240,13 +240,13 @@ import RheaExtension
 })
 ```
 
-在主App Target中 Build Settings设置开启实验feature:
+In the main App Target, enable experimental feature in Build Settings:
 -enable-experimental-feature SymbolLinkageMarkers
 ![CleanShot 2024-10-12 at 20 39 59@2x](https://github.com/user-attachments/assets/92a382aa-b8b7-4b49-8a8f-c8587caaf2f1)
 
 
 ```swift
-// 主 target 使用
+// Main target usage
 import RheaExtension
 
 #rhea(time: .premain, func: { _ in
@@ -254,7 +254,7 @@ import RheaExtension
 })
 ```
 
-另外, 还可以直接传入 `StaticString` 作为 time key.
+Additionally, you can directly pass `StaticString` as time key.
 ```
 #rhea(time: "ACustomEventString", func: { _ in
     print("~~~~ custom event")
@@ -263,13 +263,13 @@ import RheaExtension
 
 ### CocoaPods
 
-Podfile中添加:
+Add to Podfile:
 
 ```ruby
 pod 'RheaTime'
 ```
 
-由于 CocoaPods 不支持直接使用 Swift Macro, 可以将宏实现编译为二进制提供使用, 接入方式如下, 需要设置`s.pod_target_xcconfig`来加载宏实现的二进制插件:
+Since CocoaPods doesn't support using Swift Macro directly, you can compile the macro implementation into binary for use. The integration method is as follows, requiring `s.pod_target_xcconfig` to load the binary plugin of macro implementation:
 ```swift
 // RheaExtension podspec
 Pod::Spec.new do |s|
@@ -288,7 +288,7 @@ TODO: Add long description of the pod here.
 
   s.dependency 'RheaTime', '1.1.0'
 
-  # 复制以下 config 到你的 pod
+  # Copy following config to your pod
   s.pod_target_xcconfig = {
     'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
   }
@@ -311,14 +311,14 @@ TODO: Add long description of the pod here.
   s.source_files = 'Account/Classes/**/*'
   s.dependency 'RheaExtension'
   
-  # 复制以下 config 到你的 pod
+  # Copy following config to your pod
   s.pod_target_xcconfig = {
     'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
 
-或者, 如果不使用`s.pod_target_xcconfig`和`s.user_target_xcconfig`, 也可以在 podfile 中添加如下脚本统一处理:
+Alternatively, if not using `s.pod_target_xcconfig` and `s.user_target_xcconfig`, you can add the following script in podfile for unified processing:
 ```ruby
 post_install do |installer|
   installer.pods_project.targets.each do |target|
@@ -334,7 +334,7 @@ post_install do |installer|
           swift_flags.concat(plugin_flag.split)
         end
         
-        # 添加 SymbolLinkageMarkers 实验性特性标志
+        # Add SymbolLinkageMarkers experimental feature flag
         symbol_linkage_flag = '-enable-experimental-feature SymbolLinkageMarkers'
         
         unless swift_flags.join(' ').include?(symbol_linkage_flag)
@@ -347,85 +347,7 @@ post_install do |installer|
   end
 end
 ```
-代码使用上与SPM相同.
-
-----
-# 以下为旧版 0.2.1 版本
-
-## 使用方法
-
-### 在工程任意位置扩展 `Rhea` 以实现 `RheaConfigable` 协议, 框架会在启动时自动读取该配置, 并以 `NSClassFromString()` 生成 Class, 所以要求使用本框架的类型必须是 class, 而不能是 struct, enum
-```
-import Foundation
-import RheaTime
-
-extension Rhea: RheaConfigable {
-    public static var classNames: [String] {
-        return [
-            "Rhea_Example.ViewController".
-            "REAccountModule"
-        ]
-    }
-}
-
-```
-
-### 在需要使用的类型实现 `RheaDelegate` 中需要的方法. 
-其中 `rheaLoad`, `rheaAppDidFinishLaunching(context:)` 为框架内部自动调用, 而 `rheaDidReceiveCustomEvent(event:)` 需要使用者调用 `Rhea.trigger(event:)` 来主动触发.
-主动触发的事件名可以直接使用字符串, 也可以扩展 `RheaEvent` 定义常量
-```
-extension RheaEvent {
-    static let homepageDidAppear: RheaEvent = "app_homepageDidAppear"
-}
-
-class ViewController: UIViewController {
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        Rhea.trigger(event: .homepageDidAppear)
-    }
-}
-
-
-extension ViewController: RheaDelegate {
-    static func rheaLoad() {
-        print(#function)
-    }
-    
-    static func rheaPremain() {
-        print("ViewController \(#function)")
-    }
-
-    static func rheaAppDidFinishLaunching(context: RheaContext) {
-        print(#function)
-        print(context)
-    }
-
-    static func rheaDidReceiveCustomEvent(event: RheaEvent) {
-        switch event {
-        case "register_route": print("register_route")
-        case .homepageDidAppear: print(RheaEvent.homepageDidAppear)
-        default: break
-        }
-    }
-}
-```
-
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-`>= iOS 10.0`
-
-## Installation
-
-Rhea is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'RheaTime'
-```
+Code usage is the same as SPM.
 
 ## Author
 
