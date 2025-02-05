@@ -33,11 +33,19 @@ import RheaExtension
     Rhea.trigger(event: .registerRoute)
 })
 
+#rhea(time: .load) { _ in
+    print("load with trailing closure")
+}
+
 class ViewController: UIViewController {
     
     #rhea(time: .load, func: { _ in
         print("~~~~ load nested in main")
     })
+
+    #rhea(time: .homePageDidAppear) { context in
+        print("homePageDidAppear with trailing closure \(context.param)")
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
