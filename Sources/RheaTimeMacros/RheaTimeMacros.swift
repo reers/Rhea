@@ -64,21 +64,33 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
         let isGlobal = context.lexicalContext.isEmpty
         let staticString = isGlobal ? "" : "static "
         let infoName = "\(context.makeUniqueName("rhea"))"
+        let closure = if !functionBody.isEmpty {
+            """
+            { \(signature ?? "context in")\n\(functionBody)
+            }
+            """
+        } else if let trailingClosure = node.trailingClosure?.trimmedDescription {
+            trailingClosure
+        } else {
+            throw MacroError(text: "Requires a closure.")
+        }
         
         let declarationString = """
             @_used 
             @_section("__DATA,__rheatime")
             \(staticString)let \(infoName): RheaRegisterInfo = (
                 "rhea.\(time).\(priority).\(repeatable).\(async)",
-                { \(signature ?? "context in")
-                    \(functionBody)
-                }
+                \(closure)
             )
             """
         return [DeclSyntax(stringLiteral: declarationString)]
     }
 }
 
+struct MacroError: Error, CustomStringConvertible {
+    let text: String
+    var description: String { return text }
+}
 
 @main
 struct RheaTimePlugin: CompilerPlugin {
