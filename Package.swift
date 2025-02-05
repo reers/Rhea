@@ -41,5 +41,13 @@ let package = Package(
             swiftSettings: [.enableExperimentalFeature("SymbolLinkageMarkers")]
         ),
         .target(name: "OCRhea"),
+        // A test target used to develop the macro implementation.
+        .testTarget(
+            name: "RheaTests",
+            dependencies: [
+                "RheaTime",
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+            ]
+        ),
     ]
 )
