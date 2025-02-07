@@ -39,5 +39,6 @@ Pod::Spec.new do |s|
   s.user_target_xcconfig = {
     'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
   }
-
+  
+  s.dependency 'SectionReader'
 end
