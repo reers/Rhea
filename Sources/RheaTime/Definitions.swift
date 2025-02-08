@@ -11,6 +11,12 @@
 /// - Note: This function type uses C calling convention for compatibility.
 public typealias RheaFunction = @convention(c) (RheaContext) -> Void
 
+/// A function type representing callback with no parameters in Rhea framework.
+///
+/// - Important: This is a transitional definition that will be automatically
+///   replaced by `RheaFunction` during macro expansion. 
+public typealias RheaParameterlessFunction = @convention(c) () -> Void
+
 /// Represents the registration information for a Rhea function.
 /// - Note: The `StaticString` follows the format:
 ///  "prefix.rheaTimeName.priority.isRepeatable.isAsync"

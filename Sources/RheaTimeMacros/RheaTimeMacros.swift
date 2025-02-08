@@ -76,13 +76,98 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
         }
         
         let declarationString = """
-            @_used 
-            @_section("__DATA,__rheatime")
-            \(staticString)let \(infoName): RheaRegisterInfo = (
-                "rhea.\(time).\(priority).\(repeatable).\(async)",
-                \(closure)
-            )
+        @_used 
+        @_section("__DATA,__rheatime")
+        \(staticString)let \(infoName): RheaRegisterInfo = (
+            "rhea.\(time).\(priority).\(repeatable).\(async)",
+            \(closure)
+        )
+        """
+        return [DeclSyntax(stringLiteral: declarationString)]
+    }
+}
+
+public struct RheaLoad: DeclarationMacro {
+    public static func expansion(
+        of node: some SwiftSyntax.FreestandingMacroExpansionSyntax,
+        in context: some SwiftSyntaxMacros.MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        return try expansion(of: node, in: context, for: "load")
+    }
+}
+
+public struct RheaPremain: DeclarationMacro {
+    public static func expansion(
+        of node: some SwiftSyntax.FreestandingMacroExpansionSyntax,
+        in context: some SwiftSyntaxMacros.MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        return try expansion(of: node, in: context, for: "premain")
+    }
+}
+
+public struct RheaAppDidFinishLaunching: DeclarationMacro {
+    public static func expansion(
+        of node: some SwiftSyntax.FreestandingMacroExpansionSyntax,
+        in context: some SwiftSyntaxMacros.MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        return try expansion(of: node, in: context, for: "appDidFinishLaunching")
+    }
+}
+
+extension DeclarationMacro {
+    static func expansion(
+        of node: some SwiftSyntax.FreestandingMacroExpansionSyntax,
+        in context: some SwiftSyntaxMacros.MacroExpansionContext,
+        for time: String
+    ) throws -> [DeclSyntax] {
+        let argumentList = node.arguments
+        var functionBody: String = ""
+        var signature: String?
+        
+        for argument in argumentList {
+            switch argument.label?.text {
+            case "func":
+                if let closureExpr = argument.expression.as(ClosureExprSyntax.self) {
+                    functionBody = closureExpr.statements.description.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if let sig = closureExpr.signature {
+                        signature = sig.description
+                    }
+                }
+            default:
+                break
+            }
+        }
+        let isGlobal = context.lexicalContext.isEmpty
+        let staticString = isGlobal ? "" : "static "
+        let infoName = "\(context.makeUniqueName("rhea"))"
+        let closure = if !functionBody.isEmpty {
             """
+            { \(signature ?? "context in")\n\(functionBody)
+            }
+            """
+        } else if let trailingClosure = node.trailingClosure?.trimmedDescription {
+            trailingClosure.addedContextIn()
+        } else {
+            throw MacroError(text: "Requires a closure.")
+        }
+        
+        /*
+        // Can NOT write to mach-o file when using nested macro.
+        // maybe a swift bug, seealso: https://github.com/swiftlang/swift/issues/79235
+         
+        let declarationString = """
+        #rhea(time: .load, func: \(closure))
+        """
+        */
+        
+        let declarationString = """
+        @_used 
+        @_section("__DATA,__rheatime")
+        \(staticString)let \(infoName): RheaRegisterInfo = (
+            "rhea.\(time).5.false.false",
+            \(closure)
+        )
+        """
         return [DeclSyntax(stringLiteral: declarationString)]
     }
 }
@@ -92,9 +177,22 @@ struct MacroError: Error, CustomStringConvertible {
     var description: String { return text }
 }
 
+extension String {
+    func addedContextIn() -> String {
+        guard self.hasPrefix("{"),
+              let range = self.range(of: "{") else {
+            return self
+        }
+        return self.replacingCharacters(in: range, with: "{ context in ")
+    }
+}
+
 @main
 struct RheaTimePlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
-        WriteTimeToSectionMacro.self
+        WriteTimeToSectionMacro.self,
+        RheaLoad.self,
+        RheaPremain.self,
+        RheaAppDidFinishLaunching.self
     ]
 }
