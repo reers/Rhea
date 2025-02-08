@@ -31,19 +31,27 @@ import RheaExtension
     print("~~~~ homepageDidAppear")
 })
 
-#rhea(time: .premain, func: { _ in
-    Rhea.trigger(event: .registerRoute)
-})
-
 #rhea(time: .load) { _ in
     print("load with trailing closure")
 }
 
+#load {
+    print("use load directly")
+}
+
+#premain {
+    print("use premain directly")
+}
+
+#appDidFinishLaunching {
+    print("use appDidFinishLaunching directly")
+}
+
 class ViewController: UIViewController {
     
-    #rhea(time: .load, func: { _ in
+    #load {
         print("~~~~ load nested in main")
-    })
+    }
 
     #rhea(time: .homePageDidAppear) { context in
         print("homePageDidAppear with trailing closure \(context.param)")
