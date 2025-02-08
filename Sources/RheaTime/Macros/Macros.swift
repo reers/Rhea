@@ -75,3 +75,73 @@ public macro rhea(
     async: Bool = false,
     func: RheaFunction
 ) = #externalMacro(module: "RheaTimeMacros", type: "WriteTimeToSectionMacro")
+
+/// Registers a callback function for the `.load` event timing.
+///
+/// This is a convenience wrapper macro for `#rhea` that specifically handles the `.load` event timing.
+/// The callback will be executed during the module load phase with default settings:
+/// - priority: `.normal`
+/// - repeatable: `false`
+/// - async: `false`
+///
+/// ```swift
+/// #load {
+///     print("Module loaded")
+/// }
+/// ```
+///
+/// - Parameter func: A parameterless callback function to be executed during module load.
+@freestanding(declaration)
+public macro load(
+    func: RheaParameterlessFunction
+) = #externalMacro(module: "RheaTimeMacros", type: "RheaLoad")
+
+/// Registers a callback function for the `.premain` event timing.
+///
+/// This is a convenience wrapper macro for `#rhea` that specifically handles the `.premain` event timing.
+/// The callback will be executed before the main function with default settings:
+/// - priority: `.normal`
+/// - repeatable: `false`
+/// - async: `false`
+///
+/// ```swift
+/// #premain {
+///     print("Before main function")
+/// }
+/// ```
+///
+/// - Parameter func: A parameterless callback function to be executed before main.
+@freestanding(declaration)
+public macro premain(
+    func: RheaParameterlessFunction
+) = #externalMacro(module: "RheaTimeMacros", type: "RheaPremain")
+
+/// Registers a callback function for the `.appDidFinishLaunching` event timing.
+///
+/// This is a convenience wrapper macro for `#rhea` that specifically handles the `.appDidFinishLaunching` event timing.
+/// The callback will be executed when the application finishes launching with default settings:
+/// - priority: `.normal`
+/// - repeatable: `false`
+/// - async: `false`
+///
+/// Note: This macro provides a simplified interface for cases where `launchOptions` are not needed.
+/// If you need access to `launchOptions` or other context parameters, use the full `#rhea` macro instead:
+/// ```swift
+/// // With launch options
+/// #rhea(time: .appDidFinishLaunching) { context in
+///     if let options = context.launchOptions {
+///         // Handle launch options
+///     }
+/// }
+///
+/// // Without launch options (simplified)
+/// #appDidFinishLaunching {
+///     print("App did finish launching")
+/// }
+/// ```
+///
+/// - Parameter func: A parameterless callback function to be executed when the app finishes launching.
+@freestanding(declaration)
+public macro appDidFinishLaunching(
+    func: RheaParameterlessFunction
+) = #externalMacro(module: "RheaTimeMacros", type: "RheaAppDidFinishLaunching")

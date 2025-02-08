@@ -12,7 +12,8 @@ import Foundation
 import RheaTimeMacros
 
 let testMacros: [String: Macro.Type] = [
-    "rhea": WriteTimeToSectionMacro.self
+    "rhea": WriteTimeToSectionMacro.self,
+    "load": RheaLoad.self
 ]
 #endif
 
@@ -76,6 +77,31 @@ final class RheaTimeTests: XCTestCase {
                 "rhea.customEvent.1.true.false",
                 { _ in
                     print("~~~~ customEvent in main")
+                }
+            )
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+    
+    func testNested() throws {
+        #if canImport(RheaTimeMacros)
+        assertMacroExpansion(
+            """
+            #load {
+                print(123)
+            }
+            """,
+            expandedSource: """
+            @_used
+            @_section("__DATA,__rheatime")
+            let __macro_local_4rheafMu_: RheaRegisterInfo = (
+                "rhea.load.5.false.false",
+                { _ in
+                    print("load~~~")
                 }
             )
             """,
