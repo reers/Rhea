@@ -145,6 +145,12 @@ public macro rhea(
 
 ```
 
+添加 [代码片段](https://github.com/reers/Rhea/tree/main/CodeSnippets) 到 XCode, 高效开发.
+
+`~/Library/Developer/Xcode/UserData/CodeSnippets/`
+
+<img width="555" alt="截屏2025-02-08 20 26 22" src="https://github.com/user-attachments/assets/4db5a273-9084-4be5-8803-49674c9d9f5b" />
+
 ## 接入工程
 
 ### Example工程: https://github.com/Asura19/RheaExample
