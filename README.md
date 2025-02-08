@@ -147,6 +147,13 @@ public macro rhea(
 
 ```
 
+Add [CodeSnippets](https://github.com/reers/Rhea/tree/main/CodeSnippets) to XCode for greater efficiency.
+
+`~/Library/Developer/Xcode/UserData/CodeSnippets/`
+
+<img width="555" alt="截屏2025-02-08 20 26 22" src="https://github.com/user-attachments/assets/4db5a273-9084-4be5-8803-49674c9d9f5b" />
+
+
 ## Project Integration
 
 ### Example Project: https://github.com/Asura19/RheaExample
