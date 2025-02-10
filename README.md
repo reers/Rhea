@@ -372,6 +372,10 @@ end
 ```
 Code usage is the same as SPM.
 
+## Note
+
+⚠️ In theory, wrapping rhea macros could enable more convenient macros for use cases like route registration, plugin registration, module initialization, or specific encapsulations of rhea's time functionality. However, this appears to be currently blocked by a potential Swift bug. I've submitted an [issue](https://github.com/swiftlang/swift/issues/79235) to the Swift repository and am awaiting a response.
+
 ## Author
 
 Asura19, x.rhythm@qq.com
