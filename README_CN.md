@@ -369,83 +369,9 @@ end
 ```
 代码使用上与SPM相同.
 
-----
-# 以下为旧版 0.2.1 版本
+## Note
 
-## 使用方法
-
-### 在工程任意位置扩展 `Rhea` 以实现 `RheaConfigable` 协议, 框架会在启动时自动读取该配置, 并以 `NSClassFromString()` 生成 Class, 所以要求使用本框架的类型必须是 class, 而不能是 struct, enum
-```
-import Foundation
-import RheaTime
-
-extension Rhea: RheaConfigable {
-    public static var classNames: [String] {
-        return [
-            "Rhea_Example.ViewController".
-            "REAccountModule"
-        ]
-    }
-}
-
-```
-
-### 在需要使用的类型实现 `RheaDelegate` 中需要的方法. 
-其中 `rheaLoad`, `rheaAppDidFinishLaunching(context:)` 为框架内部自动调用, 而 `rheaDidReceiveCustomEvent(event:)` 需要使用者调用 `Rhea.trigger(event:)` 来主动触发.
-主动触发的事件名可以直接使用字符串, 也可以扩展 `RheaEvent` 定义常量
-```
-extension RheaEvent {
-    static let homepageDidAppear: RheaEvent = "app_homepageDidAppear"
-}
-
-class ViewController: UIViewController {
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        Rhea.trigger(event: .homepageDidAppear)
-    }
-}
-
-
-extension ViewController: RheaDelegate {
-    static func rheaLoad() {
-        print(#function)
-    }
-    
-    static func rheaPremain() {
-        print("ViewController \(#function)")
-    }
-
-    static func rheaAppDidFinishLaunching(context: RheaContext) {
-        print(#function)
-        print(context)
-    }
-
-    static func rheaDidReceiveCustomEvent(event: RheaEvent) {
-        switch event {
-        case "register_route": print("register_route")
-        case .homepageDidAppear: print(RheaEvent.homepageDidAppear)
-        default: break
-        }
-    }
-}
-```
-
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-`>= iOS 10.0`
-
-## Installation
-
-Rhea is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'RheaTime'
-```
+⚠️ 理论上对 rhea macro 进行二次包装可以实现更多便利的宏, 如路由注册, 插件注册, 模块初始化, 或是对 rhea 某个 time 的具体封装, 但目前疑似是 Swift 的 bug, 暂时无法这样做, 我向 Swift 提了一个 [issue](https://github.com/swiftlang/swift/issues/79235), 正在等待回应
 
 ## Author
 
