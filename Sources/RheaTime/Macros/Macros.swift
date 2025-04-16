@@ -91,6 +91,15 @@ public macro rhea(
 /// ```
 ///
 /// - Parameter func: A parameterless callback function to be executed during module load.
+///
+/// - Warning: Usage of this timing is **strongly discouraged**.
+/// - Note: ⚠️⚠️⚠️ This event occurs very early in the app's lifecycle, before even `main()` is called.
+///         The primary reason for discouraging its use is that any code executed during this phase
+///         **blocks the entire application and framework loading process**, potentially leading to
+///         **significantly increased launch times**. Furthermore, it runs in a **limited runtime
+///         environment** where not all classes may be loaded, leading to **fragile dependency
+///         management** and making debugging difficult. Consider using `.premain` or
+///         `.appDidFinishLaunching` for safer and more predictable initialization.
 @freestanding(declaration)
 public macro load(
     func: RheaParameterlessFunction

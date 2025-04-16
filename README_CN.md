@@ -48,7 +48,9 @@ import RheaExtension
 class ViewController: UIViewController {
     
     #load {
-        print("~~~~ load nested in main")
+        DispatchQueue.global().async {
+            print("~~~~ load nested in main")
+        }
     }
 
     #rhea(time: .homePageDidAppear) { context in
@@ -62,7 +64,7 @@ class ViewController: UIViewController {
 }
 ```
 框架内提供了三个回调时机, 分别是
-1. OC + load
+1. OC + load （强烈不推荐） 使用此时机可能会阻塞整个加载过程，从而显著增加应用的启动时间。只要有可能，请在.load中使用异步调用, 或优先选择 .premain 或 .appDidFinishLaunching 来执行初始化任务。
 2. constructor (premain)
 3. appDidFinishLaunching ()
 

@@ -50,7 +50,9 @@ import RheaExtension
 class ViewController: UIViewController {
     
     #load {
-        print("~~~~ load nested in main")
+        DispatchQueue.global().async {
+            print("~~~~ load nested in main")
+        }
     }
 
     #rhea(time: .homePageDidAppear) { context in
@@ -64,7 +66,7 @@ class ViewController: UIViewController {
 }
 ```
 The framework provides three callback timings:
-1. OC + load
+1. OC + load (Strongly Discouraged) Using this timing can significantly slow down app launch as it blocks the entire loading process. Prefer using async, or just use .premain or .appDidFinishLaunching for initialization tasks whenever possible.
 2. constructor (premain)
 3. appDidFinishLaunching ()
 
