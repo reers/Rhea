@@ -52,7 +52,7 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
                 }
             case "func":
                 if let closureExpr = argument.expression.as(ClosureExprSyntax.self) {
-                    functionBody = closureExpr.statements.description.trimmingCharacters(in: .whitespacesAndNewlines)
+                    functionBody = closureExpr.statements.trimmedDescription
                     if let sig = closureExpr.signature {
                         signature = sig.description
                     }
@@ -128,7 +128,7 @@ extension DeclarationMacro {
             switch argument.label?.text {
             case "func":
                 if let closureExpr = argument.expression.as(ClosureExprSyntax.self) {
-                    functionBody = closureExpr.statements.description.trimmingCharacters(in: .whitespacesAndNewlines)
+                    functionBody = closureExpr.statements.trimmedDescription
                     if let sig = closureExpr.signature {
                         signature = sig.description
                     }
@@ -179,11 +179,10 @@ struct MacroError: Error, CustomStringConvertible {
 
 extension String {
     func addedContextIn() -> String {
-        guard self.hasPrefix("{"),
-              let range = self.range(of: "{") else {
+        guard hasPrefix("{") else {
             return self
         }
-        return self.replacingCharacters(in: range, with: "{ context in ")
+        return "{ context in " + dropFirst()
     }
 }
 
