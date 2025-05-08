@@ -1,5 +1,7 @@
 [中文文档](README_CN.md)
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/reers/Rhea)
+
 # Rhea
 
 A framework for triggering various timings. Inspired by ByteDance's internal framework Gaia, but implemented in a different way.
