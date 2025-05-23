@@ -314,7 +314,7 @@ TODO: Add long description of the pod here.
 
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -337,7 +337,7 @@ TODO: Add long description of the pod here.
   
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -352,7 +352,7 @@ post_install do |installer|
       target.build_configurations.each do |config|
         swift_flags = config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)']
         
-        plugin_flag = '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/Sources/Resources/RheaTimeMacros#RheaTimeMacros'
+        plugin_flag = '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
         
         unless swift_flags.join(' ').include?(plugin_flag)
           swift_flags.concat(plugin_flag.split)
