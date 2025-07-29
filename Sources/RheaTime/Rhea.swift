@@ -168,40 +168,57 @@ public class Rhea: NSObject {
     private static func registerNotifications() {
         #if canImport(UIKit) && !os(watchOS)
         NotificationCenter.default.addObserver(
-            forName: UIApplication.didFinishLaunchingNotification,
-            object: nil,
-            queue: .main
-        ) { notification in
-            let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
-            
-            let context = RheaContext(launchOptions: launchOptions)
-            callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
-        }
+            self,
+            selector: #selector(uikit_didFinishLaunching(_:)),
+            name: UIApplication.didFinishLaunchingNotification,
+            object: nil
+        )
         #endif
         
         #if canImport(AppKit)
         NotificationCenter.default.addObserver(
-            forName: NSApplication.didFinishLaunchingNotification,
-            object: nil,
-            queue: .main
-        ) { notification in
-            let userInfo = notification.userInfo
-            let context = RheaContext(param: userInfo)
-            callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
-        }
+            self,
+            selector: #selector(appkit_didFinishLaunching(_:)),
+            name: NSApplication.didFinishLaunchingNotification,
+            object: nil
+        )
         #endif
         
         #if canImport(WatchKit)
         NotificationCenter.default.addObserver(
-            forName: WKApplication.didFinishLaunchingNotification,
-            object: nil,
-            queue: .main
-        ) { _ in
-            let context = RheaContext()
-            callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
-        }
+            self,
+            selector: #selector(watchkit_didFinishLaunching(_:)),
+            name: WKApplication.didFinishLaunchingNotification,
+            object: nil
+        )
         #endif
     }
+    
+    #if canImport(UIKit) && !os(watchOS)
+    @objc
+    private static func uikit_didFinishLaunching(_ notification: Notification) {
+        let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
+        let context = RheaContext(launchOptions: launchOptions)
+        callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
+    }
+    #endif
+    
+    #if canImport(AppKit)
+    @objc
+    private static func appkit_didFinishLaunching(_ notification: Notification) {
+        let userInfo = notification.userInfo
+        let context = RheaContext(param: userInfo)
+        callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
+    }
+    #endif
+        
+    #if canImport(WatchKit)
+    @objc
+    private static func watchkit_didFinishLaunching(_ notification: Notification) {
+        let context = RheaContext()
+        callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
+    }
+    #endif
 }
 
 // MARK: - Dispatch task
