@@ -157,6 +157,23 @@ Add [CodeSnippets](https://github.com/reers/Rhea/tree/main/CodeSnippets) to XCod
 
 <img width="555" alt="截屏2025-02-08 20 26 22" src="https://github.com/user-attachments/assets/4db5a273-9084-4be5-8803-49674c9d9f5b" />
 
+## Performance
+
+When tested on an iPhone 15 Pro in Release mode, with 3000 registered macros, it takes about 20 milliseconds to read the registered functions from the section. Additionally, the performance loss caused by executing the `print` function after 3000 dispatches is about 1.5 milliseconds. Overall, such performance is sufficient for any ultra-large app.
+
+It should also be noted that if the passed-in function is relatively complex, an error may occur. You can encapsulate it into a function and then call it:
+
+```swift
+func complexFunction(context: RheaContext) {
+    // Complex business logic
+    performComplexTask()
+    handleMultipleOperations()
+}
+
+#rhea(time: .load) { context in
+    complexFunction(context: context)
+}
+```
 
 ## Project Integration
 

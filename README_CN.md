@@ -155,6 +155,23 @@ public macro rhea(
 
 <img width="555" alt="截屏2025-02-08 20 26 22" src="https://github.com/user-attachments/assets/4db5a273-9084-4be5-8803-49674c9d9f5b" />
 
+## 性能说明
+
+Release 模式下, 在 iPhone 15 Pro 上测试，3000 个注册宏，从 section 读取注册函数耗时约 20 毫秒，另外 3000 次调度后执行 print 带来的性能损耗约 1.5 毫秒, 总体上, 对任何一个超大型 App 来说, 这样的性能表现都是足够使用的.
+另外需要注意的是，传入的函数如果比较复杂可能会报错，可以封装成函数后再调用即可：
+
+```swift
+func complexFunction(context: RheaContext) {
+    // 复杂的业务逻辑
+    performComplexTask()
+    handleMultipleOperations()
+}
+
+#rhea(time: .load) { context in
+    complexFunction(context: context)
+}
+```
+
 ## 接入工程
 
 ### Example工程: https://github.com/Asura19/RheaExample
