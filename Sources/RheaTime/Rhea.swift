@@ -148,7 +148,7 @@ public class Rhea: NSObject {
             let string = info.0
             let function = info.1
             
-            let parts = string.description.components(separatedBy: ".")
+            let parts = string.description.components(separatedBy: CharacterSet(charactersIn: "."))
             if parts.count == 5 {
                 let timeName = parts[1]
                 let priority = Int(parts[2]) ?? 5
