@@ -161,7 +161,10 @@ Add [CodeSnippets](https://github.com/reers/Rhea/tree/main/CodeSnippets) to XCod
 
 When tested on an iPhone 15 Pro in Release mode, with 3000 registered macros, it takes about 20 milliseconds to read the registered functions from the section. Additionally, the performance loss caused by executing the `print` function after 3000 dispatches is about 1.5 milliseconds. For older models like the iPhone 8, it takes 98 milliseconds to read 3000 registered functions. Overall, such performance is sufficient for any ultra-large app.
 
-It should also be noted that if the passed-in function is relatively complex, an error may occur. You can encapsulate it into a function and then call it:
+## Usage
+1. Setting breakpoints inside functions requires macro expansion first; otherwise, the breakpoints won't take effect.
+
+2. If the passed-in function is relatively complex, an error may occur. You can encapsulate it into a function and then call it:
 
 ```swift
 func complexFunction(context: RheaContext) {
