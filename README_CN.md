@@ -162,8 +162,9 @@ Release 模式下, 在 iPhone 15 Pro 上测试，3000 个注册宏，从 section
 ## 使用说明
 
 1. 函数内打断点需要宏展开后再打, 否则断点不生效.
+![CleanShot 2025-07-30 at 16 08 14@2x](https://github.com/user-attachments/assets/4041c240-80df-48ba-89c7-971438c9bfb9)
 
-2. 传入的函数如果比较复杂可能会报错，可以封装成函数后再调用即可：
+3. 传入的函数如果比较复杂可能会报错，可以封装成函数后再调用即可：
 
 ```swift
 func complexFunction(context: RheaContext) {
