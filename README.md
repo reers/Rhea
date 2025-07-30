@@ -163,6 +163,7 @@ When tested on an iPhone 15 Pro in Release mode, with 3000 registered macros, it
 
 ## Usage
 1. Setting breakpoints inside functions requires macro expansion first; otherwise, the breakpoints won't take effect.
+![CleanShot 2025-07-30 at 16 08 14@2x](https://github.com/user-attachments/assets/4041c240-80df-48ba-89c7-971438c9bfb9)
 
 2. If the passed-in function is relatively complex, an error may occur. You can encapsulate it into a function and then call it:
 
