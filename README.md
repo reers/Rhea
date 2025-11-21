@@ -370,7 +370,7 @@ Alternatively, if not using `s.pod_target_xcconfig` and `s.user_target_xcconfig`
 ```ruby
 post_install do |installer|
   installer.pods_project.targets.each do |target|
-    rhea_dependency = target.dependencies.find { |d| ['RheaTime', 'RheaExtension'].include?(d.name) }
+    rhea_dependency = target.dependencies.find { |d| ['RheaTime'].include?(d.name) }
     if rhea_dependency
       puts "Adding Rhea Swift flags to target: #{target.name}"
       target.build_configurations.each do |config|
@@ -395,6 +395,9 @@ post_install do |installer|
   end
 end
 ```
+<p><strong>⚠️ Important:</strong> If you encounter <code>rsync</code> permission errors with Xcode 14+, disable User Script Sandboxing:</p>
+<p>In your project's <strong>Build Settings</strong>, search for <code>User Script Sandboxing</code> and set <code>ENABLE_USER_SCRIPT_SANDBOXING</code> to <code>No</code>. This resolves CocoaPods script execution issues caused by Xcode's stricter sandbox restrictions.</p>
+
 Code usage is the same as SPM.
 
 ## Note
