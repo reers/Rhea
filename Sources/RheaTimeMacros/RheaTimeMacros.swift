@@ -75,11 +75,13 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
             throw MacroError(text: "Requires a closure.")
         }
         
+        let hashLiteral = fnv1aHashLiteral(time)
         let declarationString = """
         @_used 
         @_section("__DATA,__rheatime")
         \(staticString)let \(infoName): RheaRegisterInfo = (
-            "rhea.\(time).\(priority).\(repeatable).\(async)",
+            \(hashLiteral),
+            \(priority), \(repeatable), \(async),
             \(closure)
         )
         """
@@ -160,16 +162,35 @@ extension DeclarationMacro {
         """
         */
         
+        let hashLiteral = fnv1aHashLiteral(time)
         let declarationString = """
         @_used 
         @_section("__DATA,__rheatime")
         \(staticString)let \(infoName): RheaRegisterInfo = (
-            "rhea.\(time).5.false.false",
+            \(hashLiteral),
+            5, false, false,
             \(closure)
         )
         """
         return [DeclSyntax(stringLiteral: declarationString)]
     }
+}
+
+// MARK: - FNV-1a Hash (compile-time, mirrors the runtime implementation in Definitions.swift)
+
+private func fnv1aHash(_ string: String) -> UInt64 {
+    var hash: UInt64 = 0xcbf29ce484222325
+    for byte in string.utf8 {
+        hash ^= UInt64(byte)
+        hash &*= 0x100000001b3
+    }
+    return hash
+}
+
+private func fnv1aHashLiteral(_ string: String) -> String {
+    let hash = fnv1aHash(string)
+    let hex = String(hash, radix: 16)
+    return "0x" + String(repeating: "0", count: max(0, 16 - hex.count)) + hex
 }
 
 struct MacroError: Error, CustomStringConvertible {
