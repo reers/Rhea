@@ -43,7 +43,8 @@ final class RheaTimeTests: XCTestCase {
                 @_used
                 @_section("__DATA,__rheatime")
                 static let __macro_local_4rheafMu_: RheaRegisterInfo = (
-                    "rhea.load.1.true.false",
+                    0xce0eecad70f271e9,
+                    1, true, false,
                     { context in
                         print("\\(context.param)")
                     }
@@ -74,7 +75,8 @@ final class RheaTimeTests: XCTestCase {
             @_used
             @_section("__DATA,__rheatime")
             let __macro_local_4rheafMu_: RheaRegisterInfo = (
-                "rhea.customEvent.1.true.false",
+                0x3451432e46f5873a,
+                1, true, false,
                 { _ in
                     print("~~~~ customEvent in main")
                 }
@@ -99,9 +101,10 @@ final class RheaTimeTests: XCTestCase {
             @_used
             @_section("__DATA,__rheatime")
             let __macro_local_4rheafMu_: RheaRegisterInfo = (
-                "rhea.load.5.false.false",
-                { _ in
-                    print("load~~~")
+                0xce0eecad70f271e9,
+                5, false, false,
+                { context in
+                    print(123)
                 }
             )
             """,

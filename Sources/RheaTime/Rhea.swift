@@ -88,7 +88,7 @@ public class Rhea: NSObject {
     public static func trigger(event: RheaEvent, param: Any? = nil) {
         let context = RheaContext()
         context.param = param
-        callbackForTime(event.rawValue, context: context)
+        callbackForTime(rheaFNV1aHash(event.rawValue), context: context)
     }
     
     nonisolated(unsafe) private static let lock: os_unfair_lock_t = {
@@ -97,7 +97,7 @@ public class Rhea: NSObject {
         return lock
     }()
     
-    nonisolated(unsafe) private static var tasks: [String: [RheaTask]] = [:]
+    nonisolated(unsafe) private static var tasks: [UInt64: [RheaTask]] = [:]
     private static let segmentName = "__DATA"
     private static let sectionName = "__rheatime"
 
@@ -106,17 +106,17 @@ public class Rhea: NSObject {
         registerNotifications()
         readSectionDatas()
         
-        callbackForTime(RheaEvent.load.rawValue)
+        callbackForTime(rheaFNV1aHash(RheaEvent.load.rawValue))
     }
     
     @objc
     static func rhea_premain() {
-        callbackForTime(RheaEvent.premain.rawValue)
+        callbackForTime(rheaFNV1aHash(RheaEvent.premain.rawValue))
     }
     
-    private static func callbackForTime(_ time: String, context: RheaContext = .init()) {
+    private static func callbackForTime(_ eventHash: UInt64, context: RheaContext = .init()) {
         os_unfair_lock_lock(lock)
-        guard let rheaTasks = tasks[time] else {
+        guard let rheaTasks = tasks[eventHash] else {
             os_unfair_lock_unlock(lock)
             return
         }
@@ -134,9 +134,9 @@ public class Rhea: NSObject {
         
         os_unfair_lock_lock(lock)
         if repeatableTasks.isEmpty {
-            tasks[time] = nil
+            tasks[eventHash] = nil
         } else {
-            tasks[time] = repeatableTasks
+            tasks[eventHash] = repeatableTasks
         }
         os_unfair_lock_unlock(lock)
     }
@@ -145,22 +145,15 @@ public class Rhea: NSObject {
         let rheaTimes = SectionReader.read(RheaRegisterInfo.self, segment: segmentName, section: sectionName)
         os_unfair_lock_lock(lock)
         for info in rheaTimes {
-            let string = info.0
-            let function = info.1
-            
-            let parts = string.description.components(separatedBy: CharacterSet(charactersIn: "."))
-            if parts.count == 5 {
-                let timeName = parts[1]
-                let priority = Int(parts[2]) ?? 5
-                let repeatable = Bool(parts[3]) ?? false
-                let isAsync = Bool(parts[4]) ?? false
-                let task = RheaTask(name: timeName, priority: priority, repeatable: repeatable, isAsync: isAsync, function: function)
-                var existingTasks = tasks[timeName] ?? []
-                existingTasks.append(task)
-                tasks[timeName] = existingTasks
-            } else {
-                assert(false, "Register info string should have 5 parts")
-            }
+            let eventHash = info.0
+            let priority = Int(info.1)
+            let repeatable = info.2
+            let isAsync = info.3
+            let function = info.4
+            let task = RheaTask(eventHash: eventHash, priority: priority, repeatable: repeatable, isAsync: isAsync, function: function)
+            var existingTasks = tasks[eventHash] ?? []
+            existingTasks.append(task)
+            tasks[eventHash] = existingTasks
         }
         os_unfair_lock_unlock(lock)
     }
@@ -199,7 +192,7 @@ public class Rhea: NSObject {
     private static func uikit_didFinishLaunching(_ notification: Notification) {
         let launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
         let context = RheaContext(launchOptions: launchOptions)
-        callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
+        callbackForTime(rheaFNV1aHash(RheaEvent.appDidFinishLaunching.rawValue), context: context)
     }
     #endif
     
@@ -208,7 +201,7 @@ public class Rhea: NSObject {
     private static func appkit_didFinishLaunching(_ notification: Notification) {
         let userInfo = notification.userInfo
         let context = RheaContext(param: userInfo)
-        callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
+        callbackForTime(rheaFNV1aHash(RheaEvent.appDidFinishLaunching.rawValue), context: context)
     }
     #endif
         
@@ -216,7 +209,7 @@ public class Rhea: NSObject {
     @objc
     private static func watchkit_didFinishLaunching(_ notification: Notification) {
         let context = RheaContext()
-        callbackForTime(RheaEvent.appDidFinishLaunching.rawValue, context: context)
+        callbackForTime(rheaFNV1aHash(RheaEvent.appDidFinishLaunching.rawValue), context: context)
     }
     #endif
 }
