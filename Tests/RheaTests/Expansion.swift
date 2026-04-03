@@ -40,8 +40,8 @@ final class RheaTimeTests: XCTestCase {
             class ViewController: UIViewController {
                 var name: String?
 
-                @_used
-                @_section("__DATA,__rheatime")
+                @used
+                @section("__DATA,__rheatime")
                 static let __macro_local_4rheafMu_: RheaRegisterInfo = (
                     0xce0eecad70f271e9,
                     1, true, false,
@@ -72,8 +72,8 @@ final class RheaTimeTests: XCTestCase {
             })
             """,
             expandedSource: """
-            @_used
-            @_section("__DATA,__rheatime")
+            @used
+            @section("__DATA,__rheatime")
             let __macro_local_4rheafMu_: RheaRegisterInfo = (
                 0x3451432e46f5873a,
                 1, true, false,
@@ -98,8 +98,8 @@ final class RheaTimeTests: XCTestCase {
             }
             """,
             expandedSource: """
-            @_used
-            @_section("__DATA,__rheatime")
+            @used
+            @section("__DATA,__rheatime")
             let __macro_local_4rheafMu_: RheaRegisterInfo = (
                 0xce0eecad70f271e9,
                 5, false, false,
