@@ -12,7 +12,10 @@ After Swift 5.10, with the support of `@_used` `@_section` which can write data 
 🟡 Currently, this capability is still an experimental Swift Feature and needs to be enabled through configuration settings. See the integration documentation for details.
 
 ## Requirements
-XCode 16.0 +
+Xcode 26.4 + (Swift 6.3+)
+
+> **Note**: This version requires Xcode 26.4 or later with Swift 6.3+, which includes the stable `@section` and `@used` attributes (previously `@_section` and `@_used`).
+> For older Xcode versions (16.0-26.3), please use version [2.2.8](https://github.com/reers/Rhea/releases/tag/2.2.8) which uses the experimental attributes.
 
 iOS 13.0+, macOS 10.15+, tvOS 13.0+, visionOS 1.0+, watchOS 7.0+
 

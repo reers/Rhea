@@ -10,7 +10,10 @@ Swift 5.10 之后, 支持了`@_used` `@_section` 可以将数据写入 section, 
 🟡 目前这个能力还是 Swift 的实验 Feature, 需要通过配置项开启, 详见接入文档.
 
 ## 要求
-XCode 16.0 +
+Xcode 26.4 + (Swift 6.3+)
+
+> **注意**: 本版本需要 Xcode 26.4 或更高版本，包含 Swift 6.3+，使用正式的 `@section` 和 `@used` 属性（之前是实验性的 `@_section` 和 `@_used`）。
+> 对于旧版 Xcode (16.0-26.3)，请使用 [2.2.8](https://github.com/reers/Rhea/releases/tag/2.2.8) 版本，该版本使用实验性属性。
 
 iOS 13.0+, macOS 10.15+, tvOS 13.0+, visionOS 1.0+, watchOS 7.0+
 
