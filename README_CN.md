@@ -5,21 +5,16 @@
 一个用于触发各种时机的框架. 灵感来自字节内部的框架 Gaia, 但是以不同的方式实现的.
 在希腊神话中, Rhea 是 Gaia 的女儿, 本框架也因此得名.
 
-Swift 5.10 之后, 支持了`@_used` `@_section` 可以将数据写入 section, 再结合 Swift Macro, 就可以实现 OC 时代各种解耦和的, 用于注册信息的能力了. 本框架也采用此方式进行了全面重构.
-
-🟡 目前这个能力还是 Swift 的实验 Feature, 需要通过配置项开启, 详见接入文档.
+利用 `@used` 和 `@section`（Swift 6.3 起正式支持）可以将数据写入 Mach-O section, 再结合 Swift Macro, 就可以实现 OC 时代各种解耦和的, 用于注册信息的能力了. 本框架也采用此方式进行了全面重构.
 
 ## 要求
 Xcode 26.4 + (Swift 6.3+)
 
-> **注意**: 本版本需要 Xcode 26.4 或更高版本，包含 Swift 6.3+，使用正式的 `@section` 和 `@used` 属性（之前是实验性的 `@_section` 和 `@_used`）。
-> 对于旧版 Xcode (16.0-26.3)，请使用 [2.2.8](https://github.com/reers/Rhea/releases/tag/2.2.8) 版本，该版本使用实验性属性。
+> 对于旧版 Xcode (16.0-26.3)，请使用 [2.2.8](https://github.com/reers/Rhea/releases/tag/2.2.8) 版本，该版本使用实验性的 `@_section` 和 `@_used` 属性。
 
 iOS 13.0+, macOS 10.15+, tvOS 13.0+, visionOS 1.0+, watchOS 7.0+
 
-Swift 5.10
-
-swift-syntax 600.0.0
+swift-syntax 601.0.1+
 
 ## 基本使用
 ```swift
@@ -222,7 +217,6 @@ RheaExtension
 ```
 
 ### Swift Package Manager
-在依赖的Package中通过 `swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]` 开启实验feature
 ```swift
 // Package.swift
 let package = Package(
@@ -232,16 +226,14 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "2.2.7")
+        .package(url: "https://github.com/reers/Rhea.git", from: "3.0.0")
     ],
     targets: [
         .target(
             name: "RheaExtension",
             dependencies: [
                 .product(name: "RheaTime", package: "Rhea")
-            ],
-            // 此处添加开启实验 feature
-            swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]
+            ]
         ),
     ]
 )
@@ -276,9 +268,7 @@ let package = Package(
             name: "Account",
             dependencies: [
                 .product(name: "RheaExtension", package: "RheaExtension")
-            ],
-            // 此处添加开启实验 feature
-            swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]
+            ]
         ),
     ]
 )
@@ -289,11 +279,6 @@ import RheaExtension
     print("~~~~ homepageDidAppear in main")
 })
 ```
-
-在主App Target中 Build Settings设置开启实验feature:
--enable-experimental-feature SymbolLinkageMarkers
-![CleanShot 2024-10-12 at 20 39 59@2x](https://github.com/user-attachments/assets/92a382aa-b8b7-4b49-8a8f-c8587caaf2f1)
-
 
 ```swift
 // 主 target 使用
@@ -340,7 +325,7 @@ TODO: Add long description of the pod here.
 
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -363,7 +348,7 @@ TODO: Add long description of the pod here.
   
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -384,11 +369,7 @@ post_install do |installer|
           swift_flags.concat(plugin_flag.split)
         end
         
-        # 添加 SymbolLinkageMarkers 实验性特性标志
-        symbol_linkage_flag = '-enable-experimental-feature SymbolLinkageMarkers'
         
-        unless swift_flags.join(' ').include?(symbol_linkage_flag)
-          swift_flags.concat(symbol_linkage_flag.split)
         end
         
         config.build_settings['OTHER_SWIFT_FLAGS'] = swift_flags
