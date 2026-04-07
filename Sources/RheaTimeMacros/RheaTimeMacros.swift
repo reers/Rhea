@@ -77,8 +77,8 @@ public struct WriteTimeToSectionMacro: DeclarationMacro {
         
         let hashLiteral = fnv1aHashLiteral(time)
         let declarationString = """
-        @_used 
-        @_section("__DATA,__rheatime")
+        @used 
+        @section("__DATA,__rheatime")
         \(staticString)let \(infoName): RheaRegisterInfo = (
             \(hashLiteral),
             \(priority), \(repeatable), \(async),
@@ -164,8 +164,8 @@ extension DeclarationMacro {
         
         let hashLiteral = fnv1aHashLiteral(time)
         let declarationString = """
-        @_used 
-        @_section("__DATA,__rheatime")
+        @used 
+        @section("__DATA,__rheatime")
         \(staticString)let \(infoName): RheaRegisterInfo = (
             \(hashLiteral),
             5, false, false,

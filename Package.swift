@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -40,7 +40,7 @@ let package = Package(
             name: "RheaTime",
             dependencies: ["OCRhea", "RheaTimeMacros", "SectionReader"],
             path: "Sources/RheaTime",
-            swiftSettings: [.enableExperimentalFeature("SymbolLinkageMarkers")]
+            swiftSettings: []
         ),
         .target(name: "OCRhea"),
         // A test target used to develop the macro implementation.

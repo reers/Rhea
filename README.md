@@ -7,18 +7,16 @@
 A framework for triggering various timings. Inspired by ByteDance's internal framework Gaia, but implemented in a different way.
 In Greek mythology, Rhea is the daughter of Gaia, hence the name of this framework.
 
-After Swift 5.10, with the support of `@_used` `@_section` which can write data into sections, combined with Swift Macro, we can now achieve various decoupling and registration capabilities from the OC era. This framework has also been completely refactored using this approach.
-
-🟡 Currently, this capability is still an experimental Swift Feature and needs to be enabled through configuration settings. See the integration documentation for details.
+With the support of `@used` and `@section` (stable since Swift 6.3) which can write data into Mach-O sections, combined with Swift Macro, we can achieve various decoupling and registration capabilities from the OC era. This framework has been completely refactored using this approach.
 
 ## Requirements
-XCode 16.0 +
+Xcode 26.4 + (Swift 6.3+)
+
+> For older Xcode versions (16.0-26.3), please use version [2.2.8](https://github.com/reers/Rhea/releases/tag/2.2.8) which uses the experimental `@_section` and `@_used` attributes.
 
 iOS 13.0+, macOS 10.15+, tvOS 13.0+, visionOS 1.0+, watchOS 7.0+
 
-Swift 5.10
-
-swift-syntax 600.0.0
+swift-syntax 601.0.1+
 
 ## Basic Usage
 ```swift
@@ -220,7 +218,6 @@ External usage
 ```
 
 ### Swift Package Manager
-Enable experimental feature through `swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]` in the dependent Package
 ```swift
 // Package.swift
 let package = Package(
@@ -237,9 +234,7 @@ let package = Package(
             name: "RheaExtension",
             dependencies: [
                 .product(name: "RheaTime", package: "Rhea")
-            ],
-            // Add experimental feature enable here
-            swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]
+            ]
         ),
     ]
 )
@@ -274,9 +269,7 @@ let package = Package(
             name: "Account",
             dependencies: [
                 .product(name: "RheaExtension", package: "RheaExtension")
-            ],
-            // Add experimental feature enable here
-            swiftSettings:[.enableExperimentalFeature("SymbolLinkageMarkers")]
+            ]
         ),
     ]
 )
@@ -287,11 +280,6 @@ import RheaExtension
     print("~~~~ homepageDidAppear in main")
 })
 ```
-
-In the main App Target, enable experimental feature in Build Settings:
--enable-experimental-feature SymbolLinkageMarkers
-![CleanShot 2024-10-12 at 20 39 59@2x](https://github.com/user-attachments/assets/92a382aa-b8b7-4b49-8a8f-c8587caaf2f1)
-
 
 ```swift
 // Main target usage
@@ -317,7 +305,7 @@ Add to Podfile:
 pod 'RheaTime'
 ```
 
-Since CocoaPods doesn't support using Swift Macro directly, you can compile the macro implementation into binary for use. The integration method is as follows, requiring `s.pod_target_xcconfig` to load the binary plugin of macro implementation:
+Since CocoaPods doesn't support using Swift Macro directly, you can compile the macro implementation into binary for use. The integration method is as follows, requiring `s.pod_target_xcconfig` to load the binary plugin:
 ```swift
 // RheaExtension podspec
 Pod::Spec.new do |s|
@@ -338,7 +326,7 @@ TODO: Add long description of the pod here.
 
   # Copy following config to your pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -361,7 +349,7 @@ TODO: Add long description of the pod here.
   
   # Copy following config to your pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -382,11 +370,7 @@ post_install do |installer|
           swift_flags.concat(plugin_flag.split)
         end
         
-        # Add SymbolLinkageMarkers experimental feature flag
-        symbol_linkage_flag = '-enable-experimental-feature SymbolLinkageMarkers'
         
-        unless swift_flags.join(' ').include?(symbol_linkage_flag)
-          swift_flags.concat(symbol_linkage_flag.split)
         end
         
         config.build_settings['OTHER_SWIFT_FLAGS'] = swift_flags
