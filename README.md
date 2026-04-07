@@ -227,7 +227,7 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "2.2.8")
+        .package(url: "https://github.com/reers/Rhea.git", from: "2.3.0")
     ],
     targets: [
         .target(
@@ -322,7 +322,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '13.0'
   s.source_files = 'RheaExtension/Classes/**/*'
 
-  s.dependency 'RheaTime', '2.2.8'
+  s.dependency 'RheaTime', '2.3.0'
 
   # Copy following config to your pod
   s.pod_target_xcconfig = {
