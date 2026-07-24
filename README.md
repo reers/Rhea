@@ -384,9 +384,73 @@ end
 
 Code usage is the same as SPM.
 
-## Note
+## Note: Wrapping `#rhea` in dependent macros
 
-⚠️ In theory, wrapping rhea macros could enable more convenient macros for use cases like route registration, plugin registration, module initialization, or specific encapsulations of rhea's time functionality. However, this appears to be currently blocked by a potential Swift bug. I've submitted an [issue](https://github.com/swiftlang/swift/issues/79235) to the Swift repository and am awaiting a response.
+You can wrap `#rhea` to build more convenient macros (route registration, plugin registration, module initialization, or a fixed `time` helper like `#load`).
+
+⚠️ Do **not** return another freestanding macro call and rely on the compiler to re-expand it:
+
+```swift
+// ❌ Looks correct in Xcode "Expand Macro", but the nested global may be missing from the Mach-O.
+// See: https://github.com/swiftlang/swift/issues/79235
+return [
+  """
+  #rhea(time: .registerRoute, func: \(closure))
+  """
+]
+```
+
+✅ Instead, expand `#rhea` **inside your macro plugin** (this is how `#load` / `#premain` / `#appDidFinishLaunching` reuse `#rhea`). Dependent packages can do the same via the `RheaTimeMacroExpansion` product:
+
+```swift
+// Package.swift (dependent macro plugin)
+.macro(
+    name: "MyMacros",
+    dependencies: [
+        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+        .product(name: "RheaTimeMacroExpansion", package: "Rhea"),
+    ]
+)
+```
+
+```swift
+@freestanding(declaration)
+public macro registerRoute(func: RheaParameterlessFunction) = #externalMacro(
+    module: "MyMacros", 
+    type: "RegisterRouteMacro"
+)
+```
+
+```swift
+import SwiftSyntax
+import SwiftSyntaxMacros
+import RheaTimeMacroExpansion
+
+public struct RegisterRouteMacro: DeclarationMacro {
+    public static func expansion(
+        of node: some FreestandingMacroExpansionSyntax,
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        // Fixed `time`; closure still comes from the call site (`#registerRoute { ... }`).
+        // Optional: priority (default 5), repeatable (default false), async (default false)
+        return try RheaMacroExpansion.expandFixedTimeWrapper(
+            of: node,
+            in: context,
+            time: "registerRoute",
+            priority: 7,
+            repeatable: true
+        )
+    }
+}
+
+// Call site — callback is still provided by the user:
+// #registerRoute {
+//     print("route registered")
+// }
+```
+
+This keeps a single implementation of the section-writing logic while still producing declarations that are written into the binary.
 
 ## Author
 

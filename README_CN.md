@@ -384,9 +384,73 @@ end
 
 代码使用上与SPM相同.
 
-## Note
+## Note: 如何二次封装 `#rhea`
 
-⚠️ 理论上对 rhea macro 进行二次包装可以实现更多便利的宏, 如路由注册, 插件注册, 模块初始化, 或是对 rhea 某个 time 的具体封装, 但目前疑似是 Swift 的 bug, 暂时无法这样做, 我向 Swift 提了一个 [issue](https://github.com/swiftlang/swift/issues/79235), 正在等待回应
+可以对 `#rhea` 做二次包装，实现更便利的宏（路由注册、插件注册、模块初始化，或像 `#load` 这样固定某个 `time`）。
+
+⚠️ **不要**把另一个 freestanding 宏调用直接 return 出去，指望编译器再展开一次：
+
+```swift
+// ❌ 在 Xcode「Expand Macro」里看起来正确，但嵌套产生的全局量可能不会写入 Mach-O
+// 参见: https://github.com/swiftlang/swift/issues/79235
+return [
+  """
+  #rhea(time: .registerRoute, func: \(closure))
+  """
+]
+```
+
+✅ 正确做法：在宏插件**内部**完成 `#rhea` 的展开（`#load` / `#premain` / `#appDidFinishLaunching` 就是这样复用 `#rhea` 的）。依赖本框架的包也可以同样封装——依赖 `RheaTimeMacroExpansion` 产品即可：
+
+```swift
+// Package.swift（依赖方的宏插件）
+.macro(
+    name: "MyMacros",
+    dependencies: [
+        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+        .product(name: "RheaTimeMacroExpansion", package: "Rhea"),
+    ]
+)
+```
+
+```swift
+@freestanding(declaration)
+public macro registerRoute(func: RheaParameterlessFunction) = #externalMacro(
+    module: "MyMacros", 
+    type: "RegisterRouteMacro"
+)
+```
+
+```swift
+import SwiftSyntax
+import SwiftSyntaxMacros
+import RheaTimeMacroExpansion
+
+public struct RegisterRouteMacro: DeclarationMacro {
+    public static func expansion(
+        of node: some FreestandingMacroExpansionSyntax,
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        // 固定 `time`；闭包仍来自调用侧（`#registerRoute { ... }`）
+        // 可选: priority（默认 5）、repeatable（默认 false）、async（默认 false）
+        return try RheaMacroExpansion.expandFixedTimeWrapper(
+            of: node,
+            in: context,
+            time: "registerRoute",
+            priority: 7,
+            repeatable: true
+        )
+    }
+}
+
+// 调用侧 — 回调仍由用户传入：
+// #registerRoute {
+//     print("route registered")
+// }
+```
+
+这样既能复用 section 写入逻辑，又能保证最终声明会写入二进制。
 
 ## Author
 
