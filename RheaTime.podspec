@@ -29,7 +29,8 @@ Pod::Spec.new do |s|
   s.swift_versions = '5.10'
 
   s.source_files = 'Sources/**/*', 'MacroPlugin/RheaTimeMacros'
-  s.exclude_files = 'Sources/RheaTimeMacros'
+  # Macro plugin sources are SPM-only (need SwiftSyntax); CocoaPods uses MacroPlugin binary.
+  s.exclude_files = 'Sources/RheaTimeMacros', 'Sources/RheaTimeMacroExpansion'
   
   s.pod_target_xcconfig = {
     'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature SymbolLinkageMarkers -Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
