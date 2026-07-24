@@ -31,6 +31,6 @@ struct Demo {
     }
     
     static func main() {
-        
+        Rhea.trigger(event: .appDidFinishLaunching)
     }
 }

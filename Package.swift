@@ -17,7 +17,12 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "RheaTime",
-            targets: ["RheaTime"])
+            targets: ["RheaTime"]),
+        // Shared expansion helpers for dependent packages that wrap `#rhea`
+        // via `RheaMacroExpansion.expandRhea` / `expandFixedTimeWrapper`.
+        .library(
+            name: "RheaTimeMacroExpansion",
+            targets: ["RheaTimeMacroExpansion"]),
     ],
     dependencies: [
         // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
@@ -28,12 +33,19 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
+        .target(
+            name: "RheaTimeMacroExpansion",
+            dependencies: [
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+            ]
+        ),
         // Macro implementation that performs the source transformation of a macro.
         .macro(
             name: "RheaTimeMacros",
             dependencies: [
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+                "RheaTimeMacroExpansion",
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             ]
         ),
         .target(
@@ -48,6 +60,7 @@ let package = Package(
             name: "RheaTests",
             dependencies: [
                 "RheaTime",
+                "RheaTimeMacros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ]
         ),
