@@ -409,8 +409,16 @@ return [
     dependencies: [
         .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
         .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-        .product(name: "RheaTimeMacroExpansion", package: "RheaTime"),
+        .product(name: "RheaTimeMacroExpansion", package: "Rhea"),
     ]
+)
+```
+
+```swift
+@freestanding(declaration)
+public macro registerRoute(func: RheaParameterlessFunction) = #externalMacro(
+    module: "MyMacros", 
+    type: "RegisterRouteMacro"
 )
 ```
 
@@ -418,10 +426,6 @@ return [
 import SwiftSyntax
 import SwiftSyntaxMacros
 import RheaTimeMacroExpansion
-
-// @freestanding(declaration)
-// public macro registerRoute(func: RheaParameterlessFunction)
-//     = #externalMacro(module: "MyMacros", type: "RegisterRouteMacro")
 
 public struct RegisterRouteMacro: DeclarationMacro {
     public static func expansion(
