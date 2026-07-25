@@ -17,16 +17,14 @@ concurrency:
 jobs:
   macOS:
     if: github.event_name != 'pull_request' || !contains(github.event.pull_request.title, '[skip ci]')
-    name: macOS (Swift ${{ matrix.swift }})
-    runs-on: macos-15
-    strategy:
-      fail-fast: false
-      matrix:
-        swift:
-          - "6.3"
+    name: macOS (Swift 6.3)
+    runs-on: macos-26
     steps:
       - name: Git Checkout
         uses: actions/checkout@v5
+
+      - name: Select Xcode 26.6 (Swift 6.3)
+        run: sudo xcode-select -s /Applications/Xcode_26.6.app
 
       - name: Disable SwiftSyntax Prebuilts
         run: |
@@ -38,9 +36,6 @@ jobs:
           rm -rf ~/Library/Caches/org.swift.swiftpm
 
       - name: Run Tests
-        uses: mxcl/xcodebuild@v3
-        with:
-          platform: macOS
-          swift: ~${{ matrix.swift }}
-          action: test
-          verbosity: xcbeautify
+        run: |
+          swift --version
+          swift test

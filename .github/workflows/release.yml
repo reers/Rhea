@@ -7,13 +7,17 @@ on:
 jobs:
   build-arm64:
     name: Build arm64
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
 
+      - name: Select Xcode 26.6 (Swift 6.3)
+        run: sudo xcode-select -s /Applications/Xcode_26.6.app
+
       - name: Build arm64 macro plugin
         run: |
+          swift --version
           swift build -c release --product RheaTimeMacros
           cp .build/release/RheaTimeMacros-tool ./RheaTimeMacros-arm64
           file ./RheaTimeMacros-arm64
@@ -26,13 +30,17 @@ jobs:
 
   build-x86_64:
     name: Build x86_64
-    runs-on: macos-15-intel
+    runs-on: macos-26-intel
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
 
+      - name: Select Xcode 26.6 (Swift 6.3)
+        run: sudo xcode-select -s /Applications/Xcode_26.6.app
+
       - name: Build x86_64 macro plugin
         run: |
+          swift --version
           swift build -c release --product RheaTimeMacros
           cp .build/release/RheaTimeMacros-tool ./RheaTimeMacros-x86_64
           file ./RheaTimeMacros-x86_64
@@ -46,7 +54,7 @@ jobs:
   create-universal-and-upload:
     name: Create Universal Macro Plugin and Upload
     needs: [build-arm64, build-x86_64]
-    runs-on: macos-15
+    runs-on: macos-26
     permissions:
       contents: write
     steps:
