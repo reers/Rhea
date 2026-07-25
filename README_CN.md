@@ -226,7 +226,7 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "2.4.0")
+        .package(url: "https://github.com/reers/Rhea.git", from: "2.5.0")
     ],
     targets: [
         .target(
@@ -297,14 +297,15 @@ import RheaExtension
 ```
 
 ### CocoaPods
+已停止维护 CocoaPods 集成。**[2.4.1](https://github.com/reers/Rhea/releases/tag/2.4.1) 是最后一个 CocoaPods 版本。** 新版本请迁移到 Swift Package Manager。
 
-Podfile中添加:
+若仍需使用 CocoaPods，请固定 `2.4.1`：
 
 ```ruby
-pod 'RheaTime'
+pod 'RheaTime', '2.4.1'
 ```
 
-由于 CocoaPods 不支持直接使用 Swift Macro，RheaTime 会从与 pod 版本对应的 GitHub Release 下载预编译的 universal 宏插件（下载失败时回退到源码构建）。依赖方仍需设置 `s.pod_target_xcconfig` 来加载该插件：
+由于 CocoaPods 不支持直接使用 Swift Macro，RheaTime `2.4.1` 会从与 pod 版本对应的 GitHub Release 下载预编译的 universal 宏插件（下载失败时回退到源码构建）。依赖方仍需设置 `s.pod_target_xcconfig` 来加载该插件：
 ```swift
 // RheaExtension podspec
 Pod::Spec.new do |s|

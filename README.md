@@ -227,7 +227,7 @@ let package = Package(
         .library(name: "RheaExtension", targets: ["RheaExtension"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/reers/Rhea.git", from: "2.4.0")
+        .package(url: "https://github.com/reers/Rhea.git", from: "2.5.0")
     ],
     targets: [
         .target(
@@ -298,14 +298,15 @@ Additionally, you can directly pass `StaticString` as time key.
 ```
 
 ### CocoaPods
+CocoaPods support has been discontinued. **[2.4.1](https://github.com/reers/Rhea/releases/tag/2.4.1) is the last CocoaPods release.** Please migrate to Swift Package Manager for newer versions.
 
-Add to Podfile:
+If you must stay on CocoaPods, pin `2.4.1`:
 
 ```ruby
-pod 'RheaTime'
+pod 'RheaTime', '2.4.1'
 ```
 
-Since CocoaPods doesn't support using Swift Macro directly, RheaTime downloads a prebuilt universal macro plugin from the GitHub Release matching the pod version (with a source-build fallback). Dependent pods still need `s.pod_target_xcconfig` to load the plugin:
+Since CocoaPods doesn't support using Swift Macro directly, RheaTime `2.4.1` downloads a prebuilt universal macro plugin from the GitHub Release matching the pod version (with a source-build fallback). Dependent pods still need `s.pod_target_xcconfig` to load the plugin:
 ```swift
 // RheaExtension podspec
 Pod::Spec.new do |s|
