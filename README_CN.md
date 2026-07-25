@@ -321,7 +321,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '13.0'
   s.source_files = 'RheaExtension/Classes/**/*'
 
-  s.dependency 'RheaTime', '2.4.0'
+  s.dependency 'RheaTime', '2.4.1'
 
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
