@@ -305,7 +305,7 @@ Add to Podfile:
 pod 'RheaTime'
 ```
 
-Since CocoaPods doesn't support using Swift Macro directly, you can compile the macro implementation into binary for use. The integration method is as follows, requiring `s.pod_target_xcconfig` to load the binary plugin:
+Since CocoaPods doesn't support using Swift Macro directly, RheaTime downloads a prebuilt universal macro plugin from the GitHub Release matching the pod version (with a source-build fallback). Dependent pods still need `s.pod_target_xcconfig` to load the plugin:
 ```swift
 // RheaExtension podspec
 Pod::Spec.new do |s|
@@ -326,7 +326,7 @@ TODO: Add long description of the pod here.
 
   # Copy following config to your pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_BUILD_DIR}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -349,7 +349,7 @@ TODO: Add long description of the pod here.
   
   # Copy following config to your pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_BUILD_DIR}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -364,7 +364,7 @@ post_install do |installer|
       target.build_configurations.each do |config|
         swift_flags = config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)']
         
-        plugin_flag = '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+        plugin_flag = '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_BUILD_DIR}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
         
         unless swift_flags.join(' ').include?(plugin_flag)
           swift_flags.concat(plugin_flag.split)

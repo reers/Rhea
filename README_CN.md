@@ -304,7 +304,7 @@ Podfile中添加:
 pod 'RheaTime'
 ```
 
-由于 CocoaPods 不支持直接使用 Swift Macro, 可以将宏实现编译为二进制提供使用, 接入方式如下, 需要设置`s.pod_target_xcconfig`来加载宏实现的二进制插件:
+由于 CocoaPods 不支持直接使用 Swift Macro，RheaTime 会从与 pod 版本对应的 GitHub Release 下载预编译的 universal 宏插件（下载失败时回退到源码构建）。依赖方仍需设置 `s.pod_target_xcconfig` 来加载该插件：
 ```swift
 // RheaExtension podspec
 Pod::Spec.new do |s|
@@ -325,7 +325,7 @@ TODO: Add long description of the pod here.
 
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_BUILD_DIR}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -348,7 +348,7 @@ TODO: Add long description of the pod here.
   
   # 复制以下 config 到你的 pod
   s.pod_target_xcconfig = {
-    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+    'OTHER_SWIFT_FLAGS' => '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_BUILD_DIR}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
   }
 end
 ```
@@ -363,7 +363,7 @@ post_install do |installer|
       target.build_configurations.each do |config|
         swift_flags = config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)']
         
-        plugin_flag = '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_ROOT}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
+        plugin_flag = '-Xfrontend -load-plugin-executable -Xfrontend ${PODS_BUILD_DIR}/RheaTime/MacroPlugin/RheaTimeMacros#RheaTimeMacros'
         
         unless swift_flags.join(' ').include?(plugin_flag)
           swift_flags.concat(plugin_flag.split)
