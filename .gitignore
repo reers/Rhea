@@ -48,6 +48,12 @@ playground.xcworkspace
 
 .build/
 
+# Prebuilt CocoaPods macro plugin (distributed via GitHub Release)
+MacroPlugin/RheaTimeMacros
+MacroPlugin/RheaTimeMacros.zip
+Sources/Resources/RheaTimeMacros
+
+
 # CocoaPods
 #
 # We recommend against adding the Pods directory to your .gitignore. However

@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**"
+  schedule:
+    - cron: "3 3 * * 2" # 3:03 AM, every Tuesday
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  macOS:
+    if: github.event_name != 'pull_request' || !contains(github.event.pull_request.title, '[skip ci]')
+    name: macOS (Swift ${{ matrix.swift }})
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        swift:
+          - "6.3"
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v5
+
+      - name: Disable SwiftSyntax Prebuilts
+        run: |
+          defaults write com.apple.dt.Xcode IDEPackageEnablePrebuilts -bool NO
+
+          # nuke cache to ensure it takes effect
+          rm -rf ~/Library/Developer/Xcode/DerivedData
+          rm -rf ~/Library/Developer/Xcode/SourcePackages
+          rm -rf ~/Library/Caches/org.swift.swiftpm
+
+      - name: Run Tests
+        uses: mxcl/xcodebuild@v3
+        with:
+          platform: macOS
+          swift: ~${{ matrix.swift }}
+          action: test
+          verbosity: xcbeautify
