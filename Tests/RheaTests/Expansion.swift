@@ -11,7 +11,7 @@ import Foundation
 #if canImport(RheaTimeMacros)
 import RheaTimeMacros
 
-let testMacros: [String: Macro.Type] = [
+nonisolated(unsafe) let testMacros: [String: Macro.Type] = [
     "rhea": WriteTimeToSectionMacro.self,
     "load": RheaLoad.self
 ]
@@ -43,8 +43,7 @@ final class RheaTimeTests: XCTestCase {
                 @used
                 @section("__DATA,__rheatime")
                 static let __macro_local_4rheafMu_: RheaRegisterInfo = (
-                    0xce0eecad70f271e9,
-                    1, true, false,
+                    0xce0eecad70f271e9, 1, true, false,
                     { context in
                         print("\\(context.param)")
                     }
@@ -75,8 +74,7 @@ final class RheaTimeTests: XCTestCase {
             @used
             @section("__DATA,__rheatime")
             let __macro_local_4rheafMu_: RheaRegisterInfo = (
-                0x3451432e46f5873a,
-                1, true, false,
+                0x3451432e46f5873a, 1, true, false,
                 { _ in
                     print("~~~~ customEvent in main")
                 }
@@ -101,12 +99,44 @@ final class RheaTimeTests: XCTestCase {
             @used
             @section("__DATA,__rheatime")
             let __macro_local_4rheafMu_: RheaRegisterInfo = (
-                0xce0eecad70f271e9,
-                5, false, false,
+                0xce0eecad70f271e9, 5, false, false,
                 { context in
                     print(123)
                 }
             )
+            """,
+            macros: testMacros
+        )
+        #else
+        throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+
+    func testDeepNestTrailing() throws {
+        #if canImport(RheaTimeMacros)
+        assertMacroExpansion(
+            """
+            enum Outer {
+                class Inner {
+                    #rhea(time: .load) { context in
+                        print(1)
+                    }
+                }
+            }
+            """,
+            expandedSource: """
+            enum Outer {
+                class Inner {
+                    @used
+                    @section("__DATA,__rheatime")
+                    static let __macro_local_4rheafMu_: RheaRegisterInfo = (
+                        0xce0eecad70f271e9, 5, false, false,
+                        { context in
+                            print(1)
+                        }
+                    )
+                }
+            }
             """,
             macros: testMacros
         )

@@ -14,33 +14,27 @@ let package = Package(
         .visionOS(.v1)
     ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "RheaTime",
             targets: ["RheaTime"]),
-        // Shared expansion helpers for dependent packages that wrap `#rhea`
-        // via `RheaMacroExpansion.expandRhea` / `expandFixedTimeWrapper`.
         .library(
             name: "RheaTimeMacroExpansion",
             targets: ["RheaTimeMacroExpansion"]),
     ],
     dependencies: [
-        // Depend on the latest Swift 5.9 prerelease of SwiftSyntax
         .package(url: "https://github.com/swiftlang/swift-syntax.git", "601.0.1"..<"606.0.0"),
         .package(url: "https://github.com/reers/SectionReader.git", from: "1.0.0"),
 
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "RheaTimeMacroExpansion",
             dependencies: [
+                .product(name: "SwiftBasicFormat", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
             ]
         ),
-        // Macro implementation that performs the source transformation of a macro.
         .macro(
             name: "RheaTimeMacros",
             dependencies: [
@@ -55,12 +49,12 @@ let package = Package(
             swiftSettings: []
         ),
         .target(name: "OCRhea"),
-        // A test target used to develop the macro implementation.
         .testTarget(
             name: "RheaTests",
             dependencies: [
                 "RheaTime",
                 "RheaTimeMacros",
+                "RheaTimeMacroExpansion",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ]
         ),
